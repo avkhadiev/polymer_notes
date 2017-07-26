@@ -1,0 +1,160 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	            RATTLE: CALCULATING CORRECTIONS								         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Provides formulae for calculating corrections at each iteration step
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{Calculating Corrections}
+\label{sec:rattle_iterativeCorrection}
+  %-----------------------------------------------------------------------------
+  \par How does one calculate $\iterationThis{\rattleLagrangeApprox(t)}$ and $\iterationThis{\rattleLagrangeApprox\timeInFullStep}$ in the first and in the second corrective procedure, respectively?
+  %-----------------------------------------------------------------------------
+  \par Let us begin with $\iterationThis{\rattleLagrangeApprox}(t)$. Suppose that at the $\rattleCorrectionIndexThis$th correction step, a bond vector $\iterationThis{\rattleBondPos}\timeInFullStep$ does not satisy  \ref{eq:rattle_constraints_posApprox} --- a correction is in order, so $\iterationThis{\rattleLagrangeApprox}(t)$ needs to be calculated. This quantity is an approximation to $\iterationThis{\rattleLagrange}(t)$. If we knew $\iterationThis{\rattleLagrange}(t)$, we could calculate $\iterationNext{\rattleBondPos}\timeInFullStep$ in such a way so as to satisfy the constraint exactly. That would mean:
+  \begin{align*}
+    \rattleBondlength^2
+    &- \vectornorm{\iterationNext{\rattleBondPos}\timeInFullStep}^2 \\
+    &= \rattleBondlength^2
+      - \vectornorm{\iterationNext{\rattleBondPos}\timeInFullStep}^2 \\
+    &= \rattleBondlength^2
+      - \vectornorm{
+          \iterationThis{\rattleBondPos}\timeInFullStep
+          + \iterationThis{\dlt{\rattleBondPos}}\timeInFullStep
+        }^2 \\
+    &= 0
+  \end{align*}
+  \par Where
+  \begin{align*}
+    \iterationThis{\dlt{\rattleBondPos}}\timeInFullStep
+      &= - \timestep^2
+        \iterationThis{\rattleLagrange}(t)
+        \left(
+          \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+        \right)
+        \rattleBondPos(t)
+  \end{align*}
+  \par Expanding out, we obtain:
+  \begin{widetext}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_firstEquation}
+  \begin{aligned}
+  0 = \left(
+        \rattleBondlength^2 - \vectornorm{\iterationThis{\rattleBondPos}\timeInFullStep}^2
+      \right)
+      &- 2\timestep^2
+        \iterationThis{\rattleLagrange}(t)
+        \left(
+          \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+        \right)
+        \left(
+          \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+        \right) \\
+      &+ \left(
+          \timestep^2
+          \iterationThis{\rattleLagrange}(t)
+          \left(
+            \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+          \right)
+        \right)^2
+        \vectornorm{\rattleBondPos(t)}^2 \\
+  \end{aligned}
+  \end{equation}
+  \end{widetext}
+  \par At this point, we will ignore the term quadratic in $\iterationThis{\rattleLagrange}\timeInFullStep$, and solve the resulting linear equation. The solution to this equation will be our approximation of $\iterationThis{\rattleLagrange}\timeInFullStep$: $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$. Thus,
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_lambdaApproxFrist}
+    \iterationThis{\rattleLagrangeApprox}(t)
+      = \frac
+          {\rattleBondlength^2
+            - \vectornorm{\iterationThis{\rattleBondPos}\timeInFullStep}^2}
+          {2\timestep^2
+            \left(
+              \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+            \right)
+            \left(
+              \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+            \right)}
+  \end{equation}
+  \end{tcolorbox}
+  \par Assumming a reasonable timestep, at no point in the iterative correction should the position vector $\iterationThis{\rattleBondPos}\timeInFullStep$ turn away from $\rattleBondPos(t)$ so much as to be perpendicular to it and yield $\rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep = 0$.
+  %-----------------------------------------------------------------------------
+  \par Now let us consider $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$. Suppose that at the $\rattleCorrectionIndexThis$th correction step, a bond velocity $\iterationThis{\rattleBondVel}\timeInFullStep$ does not satisy  \ref{eq:rattle_constraints_velApprox} --- a correction is in order, so $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$ needs to be calculated. This quantity is an approximation to $\iterationThis{\rattleLagrange}\timeInFullStep$. If we knew $\iterationThis{\rattleLagrange}\timeInFullStep$, we could calculate $\iterationNext{\rattleBondVel}\timeInFullStep$ in such a way so as to satisfy the constraint exactly. That would mean:
+  \begin{align*}
+     \rattleBondPosUnit&\timeInFullStep
+        \cdot
+        \iterationNext{\rattleBondVel}\timeInFullStep \\
+      &= \rattleBondPos\timeInFullStep
+        \cdot
+        \iterationNext{\rattleBondVel}\timeInFullStep \\
+      &= \rattleBondPos\timeInFullStep
+        \cdot
+        \left(
+          \iterationThis{\rattleBondVel}\timeInFullStep
+          + \iterationThis{\dlt{\rattleBondVel}}\timeInFullStep
+        \right) \\
+      &= 0
+  \end{align*}
+  \par Where
+  \begin{align*}
+    \iterationThis{\dlt{\rattleBondVel}}
+      &\timeInFullStep \\
+      &= - \timestep
+        \iterationThis{\rattleLagrange}\timeInFullStep
+        \left(
+          \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+        \right)
+        \rattleBondPos\timeInFullStep
+  \end{align*}
+  \par Expanding out, we obtain:
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_secondEquation}
+  \begin{aligned}
+    0 &= \left(
+          \rattleBondPos\timeInFullStep
+          \cdot
+          \iterationThis{\rattleBondVel}\timeInFullStep
+        \right) \\
+        &- \timestep
+          \iterationThis{\rattleLagrange}\timeInFullStep
+          \left(
+            \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+          \right)
+          \vectornorm{\rattleBondPos\timeInFullStep}^2
+  \end{aligned}
+  \end{equation}
+  %-----------------------------------------------------------------------------
+  \par Using \ref{eq:rattle_calculatingCorrections_secondEquation}, we can calculate $\iterationThis{\rattleLagrange}\timeInFullStep$:
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_lambdaSecond}
+    \iterationThis{\rattleLagrange}\timeInFullStep
+      = -\frac
+          {\rattleBondPos\timeInFullStep
+            \cdot
+            \iterationThis{\rattleBondVel}\timeInFullStep}
+          {\timestep
+            \left(
+              \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+            \right)
+            \vectornorm{\rattleBondPos\timeInFullStep}^2}
+  \end{equation}
+  \par However, we actually do not know $\rattleBondPos\timeInFullStep$ --- we only know $\iteration{\rattleBondPos}{\rattleCorrectionIndexLast}\timeInFullStep$, which is an approximation of $\rattleBondPos\timeInFullStep$ that satisfies the constraint within the specified tolerance (here, $\rattleCorrectionIndexLast$ denotes the last iteration of the first correction stage). Therefore, what we find is an approximation of the Lagrange multiplier, $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$, equal to
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_lambdaSecond}
+    \iterationThis{\rattleLagrangeApprox}\timeInFullStep
+      = -\frac
+          {\iteration{\rattleBondPos}{\rattleCorrectionIndexLast}\timeInFullStep
+            \cdot
+            \iterationThis{\rattleBondVel}\timeInFullStep}
+          {\timestep
+            \left(
+              \frac{1}{\rattleMassFirst} - \frac{1}{\rattleMassSecond}
+            \right)
+            \vectornorm{
+              \iteration
+                {\rattleBondPos}
+                {\rattleCorrectionIndexLast}
+              \timeInFullStep
+            }^2}
+  \end{equation}
+  \end{tcolorbox}

@@ -1,0 +1,165 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	  RATTLE: CALCULATING CORRECTIONS: CORRECTIVE DISPLACEMENTS				 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Provides formulae for calculating the approximations to coorective displacements
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsubsection{Approximating Corrective Displacements}
+\label{sec:rattle_iterativeCorrection_correctiveDisplacements}
+  %-----------------------------------------------------------------------------
+  \par Finally, we can write down the form of our approximations to corrections of bond vectors in \ref{eq:rattle_integration_deltaBondVelocityHalfStep} - \ref{eq:rattle_integration_deltaBondVelocityFullStep} at any iteration $\rattleCorrectionIndex$. They are:
+  %-----------------------------------------------------------------------------
+  \begin{widetext}
+  \begin{align}
+  \label{eq:rattle_calculatingCorrections_deltaBondVelocityHalfStep}
+    \iterationThis{\dlt{\rattleBondVel}}\timeInHalfStep
+      &= \left.
+              \begin{cases}
+                0, & \frac
+                        {\scalarnorm{\rattleBondlength^2
+                        - \vectornorm{
+                            \iterationThis{\rattleBondPos} \timeInFullStep}^2}
+                          }
+                        {\rattleBondlength^2}
+                     < 2\rattleTol \\
+               - \left(
+                     \frac
+                       {
+                         \left(
+                         \rattleBondlength^2
+                         - \vectornorm{\iterationThis{\rattleBondPos}\timeInFullStep}^2
+                         \right)
+                         \rattleBondPos(t)
+                       }
+                       {
+                        2\timestep
+                         \left(
+                           \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
+                         \right)
+                         \left(
+                           \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+                         \right)
+                        }
+                    \right), & \frac
+                                {\scalarnorm{\rattleBondlength^2
+                                - \vectornorm{
+                                    \iterationThis{\rattleBondPos} \timeInFullStep}^2}
+                                }
+                                {\rattleBondlength^2}
+                         \geq 2\rattleTol \\
+              \end{cases}
+          \right\}
+          = \iterationThis{\rattleCorrectiveValue}(t) \rattleBondPos(t) \\
+  %-----------------------------------------------------------------------------
+  \label{eq:rattle_calculatingCorrections_deltaBondPositionFullStep}
+  \iterationThis{\dlt{\rattleBondPos}}\timeInFullStep
+    &= \timestep \iterationThis{\dlt{\rattleBondVel}}\timeInHalfStep
+     = \timestep \iterationThis{\rattleCorrectiveValue}(t) \rattleBondPos(t) \\
+  %-----------------------------------------------------------------------------
+  \label{eq:rattle_calculatingCorrections_deltaBondVelocityFullStep}
+  \iterationThis{\dlt{\rattleBondVel}}\timeInFullStep
+  &= \left.
+          \begin{cases}
+            0, & \frac
+                    {\timestep
+                           \scalarnorm{
+                             \rattleBondPosUnit \timeInFullStep
+                               \cdot \rattleBondVel \timeInFullStep
+                            }
+                    }
+                    {\rattleBondlength}
+                 < \rattleRVTol \\
+           -\frac
+              {
+                \left(
+                  \iteration{\rattleBondPos}{\rattleCorrectionIndexLast}
+                      \timeInFullStep
+                   \cdot
+                   \iterationThis{\rattleBondVel}\timeInFullStep
+                \right)
+                \iteration{\rattleBondPos}{\rattleCorrectionIndexLast}
+                    \timeInFullStep
+               }
+               {\left(
+                   \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
+                 \right)
+                 \vectornorm{
+                   \iteration
+                     {\rattleBondPos}
+                     {\rattleCorrectionIndexLast}
+                   \timeInFullStep
+            }^2}, & \frac
+                      {\timestep
+                             \scalarnorm{
+                               \rattleBondPosUnit \timeInFullStep
+                                 \cdot \rattleBondVel \timeInFullStep
+                             }
+                      }
+                      {\rattleBondlength}
+                 \geq \rattleRVTol \\
+          \end{cases}
+      \right\}
+      = \iterationThis{\rattleCorrectiveValue} \timeInFullStep
+        \iteration{\rattleBondPos}{\rattleCorrectionIndexLast} \timeInFullStep
+  \end{align}
+  \end{widetext}
+  %-----------------------------------------------------------------------------
+  \par Where we have defined the auxiliary quantities $\iterationThis{\rattleCorrectiveValue}(t)$ and $\iterationThis{\rattleCorrectiveValue}\timeInFullStep$. It is calculationally advantageous to operate with squares of vector norms, avoiding the expensive calculation of taking the square root; to this end, when defining $\iterationThis{\rattleCorrectiveValue}(t)$, we replaced the constraints \ref{eq:rattle_constraints_posApprox} with the first term of the Taylor expansion of the difference of squares of $\rattleBondlength$ and $\vectornorm{\iterationThis{\rattleBondPos} \timeInFullStep}$.
+  %-----------------------------------------------------------------------------
+  \par Having found the approximations \ref{eq:rattle_calculatingCorrections_deltaBondVelocityHalfStep}-\ref{eq:rattle_calculatingCorrections_deltaBondVelocityFullStep}, we now know the form of iterative corrections to atomic positions and velocities:
+  %-----------------------------------------------------------------------------
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_deltaVelocityHalfStep}
+  \begin{aligned}
+    \iterationNext{\rattleAtomVelFirst}&\timeInHalfStep
+      = \iterationThis{\rattleAtomVelFirst}\timeInHalfStep \\
+      &+ \sum_{\rattleConstraintIndex}
+          \iterationThis{\rattleCorrectiveValue}(t) \rattleBondPos(t) \\
+    \iterationNext{\rattleAtomVelSecond}&\timeInHalfStep
+      = \iterationThis{\rattleAtomVelSecond}\timeInHalfStep \\
+      &- \sum_{\rattleConstraintIndex}
+            \iterationThis{\rattleCorrectiveValue}(t) \rattleBondPos(t)
+  \end{aligned}
+  \end{equation}
+  \end{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_deltaPositionFullStep}
+  \begin{aligned}
+    \iterationNext{\rattleAtomPosFirst}&\timeInFullStep
+      = \iterationThis{\rattleAtomPosFirst}\timeInFullStep \\
+      &+ \sum_{\rattleConstraintIndex}
+           \timestep
+           \iterationThis{\rattleCorrectiveValue}(t) \rattleBondPos(t) \\
+    \iterationNext{\rattleAtomPosSecond}&\timeInFullStep
+      = \iterationThis{\rattleAtomPosSecond}\timeInFullStep \\
+      &- \sum_{\rattleConstraintIndex}
+            \timestep
+            \iterationThis{\rattleCorrectiveValue}(t) \rattleBondPos(t)
+  \end{aligned}
+  \end{equation}
+  \end{tcolorbox}
+  \begin{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_deltaVelocityFullStep}
+  \begin{aligned}
+    \iterationNext{\rattleAtomVelFirst}&\timeInFullStep
+      = \iterationThis{\rattleAtomVelFirst}\timeInFullStep \\
+      &+ \sum_{\rattleConstraintIndex}
+           \timestep
+           \iterationThis{\rattleCorrectiveValue}\timeInFullStep
+           \rattleBondPos\timeInFullStep \\
+    \iterationNext{\rattleAtomVelSecond}&\timeInFullStep
+      = \iterationThis{\rattleAtomVelSecond}\timeInFullStep \\
+      &- \sum_{\rattleConstraintIndex}
+            \timestep
+            \iterationThis{\rattleCorrectiveValue}\timeInFullStep
+            \rattleBondPos\timeInFullStep
+  \end{aligned}
+  \end{equation}
+  \end{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \par The summands on the right-hand sides of equations \ref{eq:rattle_calculatingCorrections_deltaVelocityHalfStep}-\ref{eq:rattle_calculatingCorrections_deltaVelocityFullStep} are not evaluated all at once: since at each iterative step we are looping over all the constraints one-by-one, $\iterationThis{\rattleCorrectiveValue}(t)$ and $\iterationThis{\rattleCorrectiveValue}\timeInFullStep$ are also evaluated one-by-one, in the same order as the corresponding constraints are considered. Even though the order in which the constraints are considered may affect the values of $\iterationThis{\rattleCorrectiveValue}(t)$ and $\iterationThis{\rattleCorrectiveValue}\timeInFullStep$, in the end all constraints are satisfied to within the specified tolerances simulataneously.

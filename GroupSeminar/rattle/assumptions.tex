@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                    ASSUMPTIONS								                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To answer the question: what specific case of the general problem does RATTLE attempt to solve?
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{Assumptions}
+\label{sec:rattle_assumptions}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par \rattle attempts to solve a specific case of the general problem posed above. It is a numerical integration of equations of motion for a molecule with $\rattleNAtoms$ atoms, based on the velocity Verlet integration scheme. The only kind of constraint allowed is the constraint on an interatomic bond length: a bond between any two atoms $\rattleAtomIndexFirst$ and $\rattleAtomIndexSecond$ in the molecule may be required to have a constant length $\rattleBondlength$.
+  \par The last assumption fixes the form of constraints from equation \ref{eq:rattle_problemFormulation_eom} and the contraint forces from equation \ref{eq:rattle_problemFormulation_constraintForce}:
+  %-----------------------------------------------------------------------------
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_constraint}
+  \begin{split}
+    \rattleConstraint(t)
+      &= \rattleBondlength^2 - \vectornorm{\rattleBondPos(t)}^2 \\
+      &= 0
+  \end{split}
+  \end{equation}
+  %-----------------------------------------------------------------------------
+  \begin{equation}
+  \label{eq:rattle_constraintForce}
+  \begin{split}
+    \rattleConstraintForce(t)
+      &= -\sum_{\rattleConstraintIndex}\rattleLagrange(t)
+        \Del_{\rattleAtomPos}
+        \rattleConstraint
+          \left(t,\,\rattleAtomPosFirst,\,\rattleAtomPosSecond\right) \\
+      &= -2\sum_{\rattleConstraintIndex}\rattleLagrange(t)\rattleBondPos(t)
+  \end{split}
+  \end{equation}
+  \end{tcolorbox}
+  Where $\rattleBondPos$ is the bond vector defined as
+  \begin{equation}
+  \label{eq:rattle_bondVector}
+    \rattleBondPos = \rattleAtomPosFirst - \rattleAtomPosSecond
+  \end{equation}
+  \par In equations \ref{eq:rattle_constraint}-\ref{eq:rattle_constraintForce}, we use unique atomic pairs $\rattleConstraintIndex$ to label the constraints and the corresponding Lagrange multipliers $\rattleLagrange$. All unique pairs corresponding to a constraint belong to a set $\rattleConstraintSet$. For example, in a polymer molecule with $\rattleNAtoms$ atoms, there can be at most $\rattleNAtoms - 1$ constraints of the form $K = \left\{\left(\rattleAtomIndex,\,\rattleAtomIndex + 1\right) \mid 1 \leq \rattleAtomIndex \leq \rattleNAtoms - 1\right\}$.
+  \par Note that if the only constraints of interest are those on bond lengths and bond angles, the above assumption is made without loss of generality: any constraint on two adjacent bonds connecting atom $1$ with atom $2$ and atom $2$ with atom $3$ is equivalent to a constraint on the length of the bond connecting atom $1$ with atom $3$.
+  %-----------------------------------------------------------------------------

@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	    KINETIC ENERGY OF CM -> KINETIC ENERGY					               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Subsection names and labels
+\emph{Kinetic Energy}
+\label{sec:calculation-kinetic-energy-cm-ke}
+%-------------------------------------------------------------------------------
+% Add text directly into the main file, or use \input statements
+%------------------------------------------------------------------------------
+  \par Calculating $\vcmsq = \vcm \cdot \vcm$, we find
+  \input{ke_polymer/calculation/long_equations/vcmsq}
+  \par We can re-write the second term in the equation above using a linear form, $\frac{\bondlength}{N+1} A_{i} (\vel_{0} \cdot \bondvel^{i})$ (using Einstein notation and with the index running from $1$ to $N$)
+  \begin{tcolorbox}
+    \begin{equation}
+    \label{eq:vector-a-ke-cm}
+      A_{i} = (N + 1 - i)
+    \end{equation}
+  \end{tcolorbox}
+  \par Similarly, we can re-package the last two terms in the equation above into a quadratic form, $\left(\frac{\bondlength}{N+1}\right)^2 B_{ij} \bondvel^{i} \bondvel^{j}$ (using Einstein notation and with the indices running from $1$ to $N$), where
+  \begin{tcolorbox}
+    \begin{equation}
+    \label{eq:matrix-ke-cm}
+      B_{ij} = (N + 1 - i) (N + 1 - j)
+    \end{equation}
+  \end{tcolorbox}
+  Note that $i$, $j$ are indexing 3-vectors.
+  \par For a polymer of any given number of links $N$, the vector $\vec{A}$ from equation \ref{eq:vector-a-ke-cm} can be precomputed; matrix $B$ can be calculated as an outer product $B = \vec{A} \otimes \vec{A}$. These quantities can then be made readily available whenever kinetic energy needs to be computed from the state of the simulation.
+  \par Using the above definitions, we may finally write down the kinetic energy of the center of mass as
+  \begin{tcolorbox}
+    \begin{equation}
+    \label{eq:k-cm}
+        K_{\textrm{CM}} = \onehalf (N+1)m
+          \left(
+            \vel^2_{0}
+              + \frac{\bondlength}{N+1}
+                  A_{i} \left(\vel_{0} \cdot \bondvel^{i}\right)
+              + \left(\frac{\bondlength}{N+1}\right)^2
+                B_{ij} \left(\bondvel^{i} \bondvel^{j}\right)
+          \right)
+    \end{equation}
+  \end{tcolorbox}
+%-------------------------------------------------------------------------------

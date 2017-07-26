@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	    KINETIC ENERGY OF CM -> VELOCITY OF CM					               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Subsection names and labels
+\emph{Velocity of the Center of Mass}
+\label{sec:calculation-kinetic-energy-cm-velocity-cm}
+%-------------------------------------------------------------------------------
+% Add text directly into the main file, or use \input statements
+%------------------------------------------------------------------------------
+  \par We will find $\vcm$ as $\rcmdot$. The position vector of the center of mass can be found as
+  \begin{equation}
+  \label{eq:rcm-initialrep}
+  \begin{aligned}
+    \rcm
+      &= \frac{\sum_{a = 0}^{N} m_{a} \pos_{a}}{\sum_{a = 0}^{N} m_{a}} \\
+      &= \frac{1}{N+1}\left(\sum_{a = 0}^{N} \pos_{a}\right)
+  \end{aligned}
+  \end{equation}
+  \par Note: any atomic position vector in the polymer molecule $\pos_{i}$, $i > 0$, can be found by following the bond vectors from the beginning of the chain:
+  \begin{tcolorbox}
+    \begin{equation}
+    \label{eq:ri-recursive}
+      \pos_{i} = \pos_{0} + \sum_{j = 1}^{i} d\bondpos_{j}
+    \end{equation}
+  \end{tcolorbox}
+  \par Therefore, equation \ref{eq:rcm-initialrep} can be written as
+  \begin{equation}
+  \label{eq:rcm-targetrep}
+  \begin{aligned}
+        \rcm &= \rcmtargetrep
+  \end{aligned}
+  \end{equation}
+  \par Thus, velocity of the center of mass is given by
+  \begin{equation}
+  \label{eq:vcm-targetrep}
+  \begin{aligned}
+        \vcm &= \vcmtargetrep
+  \end{aligned}
+  \end{equation}
+  \par This identitity will be userful when calculating internal kinetic energy.
+%-----------------------------------------------------------------------------

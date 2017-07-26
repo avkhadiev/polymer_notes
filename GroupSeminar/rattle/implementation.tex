@@ -1,0 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	              RATTLE: IMPLEMENTATION DETAILS				              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Provides formulae for calculating the approximations to coorective displacements
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsubsection{Implementation Details}
+\label{sec:rattle_implementationDetails}
+  %-----------------------------------------------------------------------------
+  \par Discussion Points:
+  \begin{itemize}
+      \item \emph{It is not too hard to debug \rattle}: if you missed an odd number of minus signs in calculating the approximations to constraint forces, your atoms in constrainted atomic pairs will be inexorably pushed away from each other.
+      \item \emph{Bookkeeping to avoid unnecessary work:} keeping track of all atoms that were moved in the last correction step $\rattleCorrectionIndexThis - 1$ or are being moved in the current step $\rattleCorrectionIndexThis$. Implementation by Allen \& Tildesley\cite{}.
+      \item \emph{How does the tolerance parameter $\rattleTol$ affect quantities computed in the simulation}? See plots from the diatomic exercise. It is a molecular dynamics simulation of a single freely rotating diatomic with its center of mass at the origin. Atoms in the molecule have equal mass. The diatomic is initialiazed given two parameters $\left(\hat{\vec{\Omega}},\,\dot{\hat{\vec{\Omega}}}\right)$ and allowed to rotate freely, subject to the constraint of the constant bond length.
+      \item \emph{How should the intramolecular potential be modified if the simulation is using \rattle for numerical integration?}. How persisting interatomic interactions between pairs of constrained atoms affect numerical stability.
+  \end{itemize}
+  %-----------------------------------------------------------------------------

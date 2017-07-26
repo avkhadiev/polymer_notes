@@ -1,0 +1,24 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                         SETUP								                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section names and labels
+\subsection{Calculation}
+\label{sec:kePolymer_alculation}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  %\par We will now convert equation \ref{eq:kinetic-energy-of-system} of the kinetic energy for a classical system from the initial representation $\initialrep$ to the desired representation $\targetrep$. We will do so in two steps: first, find the expression for the kinetic energy of the center of mass; second, find the expression of the ``internal'' kinetic energy corresponding to the motion relative to the center of mass.
+  %-----------------------------------------------------------------------------
+  \input{ke_polymer/calculation/kinetic_energy_cm/main}
+  \input{ke_polymer/calculation/kinetic_energy_internal/main}
+  %-----------------------------------------------------------------------------
+  \par To summarize, one can calculate the total kinetic energy of a polymer molecule as $K\targetrep$, where
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:ke-total}
+  \begin{aligned}
+    K &= \onehalf (N+1)m \vcm^2 \\
+      &+ \onehalf m\bondlength^2 C_{ij} \left(\bondvel^{i} \bondvel^{j}\right)
+  \end{aligned}
+  \end{equation}
+  \end{tcolorbox}

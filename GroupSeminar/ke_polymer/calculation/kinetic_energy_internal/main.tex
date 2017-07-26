@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	             INTERNAL KINETIC ENERGY 							                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Subsection names and labels
+\subsubsection{Internal Kinetic Energy}
+\label{sec:calculation-kinetic-energy-internal}
+%-------------------------------------------------------------------------------
+% Add text directly into the main file, or use \input statements
+%-------------------------------------------------------------------------------
+  \par We can now work out the second term of equation \ref{eq:kinetic-energy-of-system}. Using expression \ref{eq:vcm-targetrep} for the velocity of the center of mass and the time derivative of the expression \ref{eq:ri-recursive} for the position vector of the $i$th atom, we calculate the velocity of the $i$th atom relative to the center of mass:
+  \begin{equation}
+  \label{eq:vi-relative}
+  \begin{aligned}
+    \vel_{i} - \vcm
+      &= \left(\vel_{0} + \bondlength \sum_{j=1}^{i} \bondvel_{j} \right)
+        - \left( \vcmtargetrep \right) \\
+      &= \bondlength \sum_{j=1}^{i} \bondvel_{j}
+        - \frac{\bondlength}{N+1} \sum_{j=1}^{N}
+          \left(N+1-j\right)\bondvel_{j}
+  \end{aligned}
+  \end{equation}
+  \par It is a calculation to show, using equation \ref{eq:vi-relative}, that the system's internal kinetic energy is equal to a quadratic form:
+  \begin{equation}
+  \label{eq:k-internal}
+    K_{\textrm{internal}} = \onehalf m \bondlength^2
+        C_{ij} \left(\bondvel^{i} \bondvel^{j}\right)
+  \end{equation}
+  Where:
+  \begin{tcolorbox}
+  \begin{equation*}
+  \label{eq:matrix-ke-int}
+    C_{jk} = \min (j,\,k)(N+1) - jk
+  \end{equation*}
+  \end{tcolorbox}
+  \par Thus, the internal kinetic energy of the system is given by:
+  \begin{tcolorbox}
+  \begin{equation}
+      K_{\mathrm{internal}}
+        = \onehalf m\bondlength^2 C_{jk} \bondvel^{j} \bondvel^{k}
+  \end{equation}
+  \end{tcolorbox}
+%-------------------------------------------------------------------------------

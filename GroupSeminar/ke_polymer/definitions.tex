@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                    DEFINITIONS								                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------------------------------------------------------
+\newcommand*\mtot{M_{\textrm{tot}}}             % total mass
+\newcommand*\pos{\vec{r}}                       % position vector
+\newcommand*\vel{\vec{v}}                       % velocity vector
+\newcommand*\rcm{\vec{R}_{\textrm{CM}}}         % position vector of CM
+\newcommand*\rcmdot{\dot{\vec{R}}_{\textrm{CM}}}% position vector of CM
+\newcommand*\vcm{\vec{V}_{\textrm{CM}}}         % velocity vector of CM
+\newcommand*\vcmsq{V^2_{\textrm{CM}}}           % velocity of CM squared
+\newcommand*\bondlength{d}                      % length of the bond
+\newcommand*\kecm{\onehalf \mtot \vcmsq}        % kinetic energy of CM
+\newcommand*\kerel[1]                           % kinetic energy relative to CM
+  {
+    \sum_{#1 = 0}^{N} m_{#1} \onehalf (\vel_{#1} - \vcm)^2
+  }
+\newcommand*\bondpos{\hat{\vec{\Omega}}}        % bond position vector
+\newcommand*\bondvel{\dot{\bondpos}}            % bond position vector
+\newcommand*\initialrep                         % initial representation
+  {
+    (d,\,m,
+      \,\{(\pos_{i},\,\vel_{i})\,\mid 0 \leq i \leq N\})
+  }
+\newcommand*\targetrep                          % target representation
+  {
+  (d,\,m,\,
+    (\pos_{0}, \vel_{0}),\,
+    \{(\bondpos_{i},\,\bondvel_{i}) \mid 1 \leq i \leq N\}
+  }
+\newcommand*\rcmtargetrep                       % rcm in target representation
+    {
+      \pos_{0} + \frac{d}{N+1}\sum_{i=1}^{N}(N+1-i)\bondpos_{i}
+    }
+\newcommand*\vcmtargetrep                       % vcm in target representation
+  {
+    \vel_{0} + \frac{d}{N+1}\sum_{i=1}^{N}(N+1-i)\bondvel_{i}
+  }
+%-------------------------------------------------------------------------------

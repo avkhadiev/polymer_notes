@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                    VELOCITY VERLET								                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Describes leap-frog velocity Verlet following Allend & Tildesley.
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{Velocity Verlet}
+\label{sec:rattle_velocityVerlet}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par Given equations of motion:
+  \begin{equation}
+  \label{eq:rattle_velocityVerlet_eom}
+  \rattleGeneralMass \rattleGeneralPosDDot = \rattleGeneralForce
+  \end{equation}
+  \par Velocity Verlet is a scheme for numerical integration of the above equations. Dropping the indices $\rattleGeneralPointIndex$ labeling the particles, it comprises the following three equations:
+  \begin{tcolorbox}
+  \begin{align}
+  \label{eq:rattle_velocityVerlet_velocityHalfStep}
+    \rattleVel \timeInHalfStep
+      &= \rattleVel(t)
+        + \halfstep \frac{\rattleForceNoIndex(t)}{\rattleMassNoIndex} \\
+  \label{eq:rattle_velocityVerlet_positionFullStep}
+    \rattlePos \timeInFullStep
+      &= \rattlePos(t) + \timestep \rattleVel \timeInHalfStep \\
+  \label{eq:rattle_velocityVerlet_velocityFullStep}
+    \rattleVel \timeInFullStep
+      &= \rattleVel \timeInHalfStep
+        + \halfstep \frac{\rattleForceNoIndex\timeInFullStep}{\rattleMassNoIndex}
+  \end{align}
+  \end{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \par The scheme comprises two stages, separated by the force evaluation loop:
+  \begin{enumerate}
+    \item
+    \begin{itemize}
+      \item Start with $\rattlePos(t)$, $\rattleVel(t)$, and $\rattleForceNoIndex(t)$.
+      \item Calculate velocities at half timestep, $\rattleVel \timeInHalfStep$, according to equation \ref{eq:rattle_velocityVerlet_velocityHalfStep}.
+      \item Using velocities at half timestep, $\rattleVel \timeInHalfStep$, calculate positions $\rattlePos \timeInFullStep$ according to equation \ref{eq:rattle_velocityVerlet_positionFullStep}; store the values.
+    \end{itemize}
+    \item Using $\rattlePos \timeInFullStep$, calculate the forces $\rattleForceNoIndex \timeInFullStep$; store the values.
+    \begin{itemize}
+      \item Using velocities at half timestep, $\rattleVel \timeInHalfStep$, and forces $\rattleForceNoIndex \timeInFullStep$, calculate velocities at full time step, $\rattleVel \timeInFullStep$, according to equation \ref{eq:rattle_velocityVerlet_velocityFullStep}; store the values.
+    \end{itemize}
+  \end{enumerate}
+  \par This integration scheme stores positions, velocites and forces (or accelerations) at the same time, and minimizes the round-off error \cite{}.

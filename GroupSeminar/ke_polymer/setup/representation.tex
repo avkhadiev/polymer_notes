@@ -1,0 +1,31 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                  REPRESENATATION					                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Subsection names and labels
+\subsubsection{Representation}
+\label{sec:setup-representation}
+%-------------------------------------------------------------------------------
+% Add text directly into the main file, or use \input statements
+%-------------------------------------------------------------------------------
+    \par While the state of our polymer molecule model with $N + 1$ atoms can be represented, at any moment in time, by $m$, $\bondlength$, and $6(N + 1)$ position and velocity vectors of the constituent atoms (space-fixed frame), we would like to choose a different representation.
+    \par Note: if we know $m$, $d$, and the position and velocity vectors of center of mass, $\rcm$ and $\vcm$, then all the additional information we need to specify a unique state at any point in time can be captured by $N$ \emph{bond vectors} $\bondpos_{i}$ and their time derivatives $\bondvel_{i}$.
+    \par We call a bond vector $\bondpos_{i}$ the unit vector parallel to the bond between atoms $i-1$ and $i$ in the polymer molecule. The vector points towards the atom with the larger index. It makes sense to use unit vectors, since the bonds in our model are constrained to a constant length $\bondlength$.
+    \par The bond vector $\bondpos_{i}$ can be calculated as:
+    \begin{tcolorbox}
+      \begin{equation}
+      \label{eq:bond-vec}
+        \bondpos_{i}
+          = \frac{\pos_{i} - \pos_{i-1}}{\left| \pos_{i} - \pos_{i-1} \right|}
+      \end{equation}
+    \end{tcolorbox}
+    \par Because of the constraint on the bond length, we can write down the time derivative of the bond vector \cite{allen}:
+    \begin{tcolorbox}
+      \begin{equation}
+      \label{eq:bond-vel}
+        \bondvel = \vec{\omega} \cross \bondpos
+      \end{equation}
+    \end{tcolorbox}
+    \par Here, $\vec{\omega}$ is the angular velocity vector of the corresponding bond, and each vector is written in the same space-fixed frame coorindates. $\bondvel_{i}$ is not necessarily a unit vector.
+    \par For a bond vector $\bondpos_{i}$, its angular velocity vector $\vec{\omega}_{i}$ can be calculated as
+    \input{ke_polymer/setup/long_equations/angular_velocity_of_bond}
+%-------------------------------------------------------------------------------

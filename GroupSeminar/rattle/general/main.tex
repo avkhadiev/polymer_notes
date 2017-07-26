@@ -1,0 +1,38 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                       GENERAL								                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% general formulation of a problem: solving equations of motions with holonomic constraints
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{General Problem Formulation}
+\label{sec:rattle_problemFormulation}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par Generally, motion with (holonomic) constraints can be captured by the following two equations \cite{}:
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_problemFormulation_eom}
+  \rattleGeneralMass \rattleGeneralPosDDot
+    = \rattleGeneralForce + \rattleGeneralConstraintForce
+  \end{equation}
+  %-----------------------------------------------------------------------------
+  \begin{equation}
+  \label{eq:rattle_problemFormulation_constraintForce}
+  \rattleGeneralConstraintForce(t)
+    = - \sum_{\rattleGeneralConstraintIndex = 1}^{\rattleGeneralNConstraints}
+        \rattleGeneralLagrange(t)
+        \Del_{\rattleGeneralPos}
+          \rattleGeneralConstraint \left( t,\,\rattleGeneralSetPos \right)
+  \end{equation}
+  \end{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \par Where:
+  \begin{itemize}
+    \item $\rattleGeneralPointIndex$ indexes $\rattleGeneralNPoints$ particles with masses $\rattleGeneralMass$.
+    \item $\rattleGeneralConstraintIndex$ indexes $\rattleGeneralNConstraints$ constraints $\rattleGeneralConstraint$.
+    \item $\rattleGeneralForce$ is the total force on the particle $\rattleGeneralPointIndex$.
+    \item $\rattleGeneralConstraint$ depends only on time and particle positions $\rattleGeneralPos$; in particular, it does not depend on particle velocities (that is, the constraints are \emph{holonomic}).
+    \item $\rattleGeneralConstraintForce$ can be regarded as a ``constraint force'' on the particle at $\rattleGeneralPos$. Its Lagrange multiplier $\rattleGeneralLagrange(t)$, proportional to the magnitude of the ``force'', assumes the necessary units depending on the units of the corresponding constraint $\rattleGeneralConstraint(t)$.
+  \end{itemize}
+  %-----------------------------------------------------------------------------

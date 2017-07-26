@@ -1,0 +1,141 @@
+\documentclass[%
+    reprint,
+    superscriptaddress,
+    %groupedaddress,
+    %unsortedaddress,
+    %runinaddress,
+    %frontmatterverbose,
+    %preprint,
+    longbibliography,
+    bibnotes,
+    %showpacs,preprintnumbers,
+    %nofootinbib,
+    %nobibnotes,
+    %bibnotes,
+     amsmath,amssymb,
+     %aps,
+     aip,
+     jcp,                                       % J. Chem. Phys
+    %pra,
+    %prb,
+    %rmp,
+    %prstab,
+    %prstper,
+    %floatfix,
+    ]{revtex4-1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                       LIBRARIES							                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add whatever libraries you need here. Add a description if you want
+\usepackage{graphicx}			 % Include figure files
+\usepackage{dcolumn}			 % Align table columns on decimal point
+\usepackage{tcolorbox}		 % use tcolorbox environment to box equations
+\usepackage[USenglish]{babel}
+\usepackage[useregional]{datetime2}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{chemformula}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{fullpage}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{bm}              % enchanced bold math symbols
+\usepackage{amssymb}
+\usepackage{listings} 			 % For code citations
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{commath}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{graphicx}
+	\graphicspath{ {images/} }
+\usepackage{feynmp-auto}
+\usepackage[toc,page]{appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                      NEW COMMANDS							                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Redefine commands if necessary
+\renewcommand\vec{\mathbf}                      % use boldface for vectors
+% New commands
+%------------------------------------Date---------------------------------------
+\newcommand{\seminardate}{\DTMdisplaydate{2017}{7}{25}{-1}}
+%-------------------------------------------------------------------------------
+\newcommand*\Del{\vec{\nabla}}                  % del operator
+\newcommand*\diff{\mathop{}\!\mathrm{d}}		    % differential d
+\newcommand*\Diff[1]{\mathop{}\!\mathrm{d^#1}}	% d^(...)
+\newcommand*{\scalarnorm}[1]                    % scalar norm |*|
+  {\left\lvert#1\right\rvert}
+\newcommand*{\vectornorm}[1]                    % vector norm ||*||
+  {\left\lVert#1\right\rVert}
+\newcommand*\onehalf{\frac{1}{2}}               % fraction 1/2
+%------------------------------------Time---------------------------------------
+\newcommand*\dlt[1]{\delta #1}
+\newcommand*\timestep{\dlt{t}}              % timestep dt
+\newcommand*\halfstep                       % half timestep 1/2 dt
+  {\onehalf \timestep}
+\newcommand*\timeInHalfStep{\left(t + \halfstep\right)}
+\newcommand*\timeInFullStep{\left(t + \timestep\right)}
+%-------------------------------------------------------------------------------
+\input{rattle/definitions}
+\input{ke_polymer/definitions}
+%-------------------------------------------------------------------------------
+%\setlength{\parindent}{0pt}						          % do not indent
+\numberwithin{equation}{section}                % number eqs within sections
+\begin{document}
+\lstset{language=Python}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                        TITLE							                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Group Seminar}
+%\thanks{}
+\author{Artur Avkhadiev}
+\email{artur\_avkhadiev@brown.edu}
+\affiliation{Department of Physics, Brown University, Providence RI 02912, USA}
+\date{\seminardate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                       ABSTRACT							                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+  This report consist of two parts:
+  \begin{enumerate}
+      \item A discussion of the constraint dynamics algorithm based on velocity Verlet numerical integration scheme, \rattle.
+      \item A calculation of the kinetic energy of a freely-jointed polymer chain using the bond-vector representation in the CM frame of the molecule.
+    \end{enumerate}
+\end{abstract}
+\maketitle
+\tableofcontents						 % hide table of contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                        BODY							                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add include statements below. All the text should be in the folders.
+\input{rattle/main}
+\input{ke_polymer/main}
+%-------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					                        BIBLIOGRAPHY							                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The bibliography file is reference,bib. If you need to add a
+% reference, make sure all the entries look good (e.g., ensure
+% proper capitalization by putting {} around the letters to be
+% capitalized. Reference the books by chapters!
+\nocite{*}
+\bibliographystyle{apalike}
+\bibliography{reference}
+%-----------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                      APPENDICES							                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add all appendices in appendices/main.tex with include statements.
+% see appendices/sub-example-app.tex for an example.
+\onecolumngrid
+\input{appendices/main}
+%-------------------------------------------------------------------------------
+\end{document}

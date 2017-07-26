@@ -1,0 +1,24 @@
+%-------------------------------------------------------------------------------
+% Add math environment directly below. Include a label.
+%-------------------------------------------------------------------------------
+\begin{equation}
+\label{eq:vcmsq}
+\begin{aligned}
+    \vcmsq
+      &= \left(\vcmtargetrep\right) \cdot \left(\vcmtargetrep\right) \\
+      &= \vel^2_{0}
+        + 2 \frac{\bondlength}{N+1}\sum_{i=1}^{N}(N + 1 - i)
+          \left(
+            \vel_{0} \cdot \bondvel_{i}
+          \right) \\
+      &+ \left(\frac{\bondlength }{N+1}\right)^2
+          \sum_{i=1}^{N} (N + 1 - i)^2 \bondvel^2_{i} \\
+      &+ 2 \left(\frac{\bondlength}{N+1}\right)^2
+          \sum_{i=1}^{N-1}\sum_{j=i+1}^{N}
+            (N + 1 - i)(N + 1 - j)
+          \left(
+            \bondvel_{i} \cdot \bondvel_{j}
+          \right) \\
+\end{aligned}
+\end{equation}
+%-------------------------------------------------------------------------------

@@ -1,0 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                    DEFINITIONS								                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----------------------------------Indexing------------------------------------
+\newcommand*\rattleGeneralPointIndex{a}
+\newcommand*\rattleGeneralNPoints{N}
+\newcommand*\rattleGeneralConstraintIndex{k}
+\newcommand*\rattleGeneralNConstraints{L}
+%-------------------------------------------------------------------------------
+\newcommand*\rattleGeneralPos
+  {\rattlePos_{\rattleGeneralPointIndex}}
+\newcommand*\rattleGeneralPosDDot
+  {\ddot{\rattlePos}_{\rattleGeneralPointIndex}}
+\newcommand*\rattleGeneralVel
+  {\rattleVel_{\rattleGeneralPointIndex}}
+%-------------------------------------------------------------------------------
+\newcommand*\rattleGeneralSetPos
+  {\left\{
+    \rattleGeneralPos
+    \mid 1 \leq \rattleGeneralPointIndex \leq \rattleGeneralNPoints
+  \right\}}
+%-------------------------------------------------------------------------------
+\newcommand*\rattleGeneralMass
+  {\rattleMassNoIndex_{\rattleGeneralPointIndex}}
+\newcommand*\rattleGeneralForce
+  {\rattleForceNoIndex_{\rattleGeneralPointIndex}}
+\newcommand*\rattleGeneralConstraintForce
+  {\rattleConstraintForceNoIndex_{\rattleGeneralPointIndex}}
+\newcommand*\rattleGeneralConstraint
+  {\rattleConstraintNoIndex_{\rattleGeneralConstraintIndex}}
+\newcommand*\rattleGeneralLagrange
+  {\rattleLagrangeNoIndex_{\rattleGeneralConstraintIndex}}
+%-------------------------------------------------------------------------------

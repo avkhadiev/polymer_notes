@@ -1,0 +1,34 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	            RATTLE: ITERATIVE CORRECTION								           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Describes the iterative corrective procedure.
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{Correcting Iteratively}
+\label{sec:rattle_iterativeCorrection}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par One solution is to correct iteratively, until all constraints are satisfied simultaneously to within the specified tolerances $\rattleTol$ and $\rattleRVTol$. Then, each of the two corrective stages is an iterative procedure; they are analogous, so let us only consider the first one, for the sake of brevity. Suppose we are iterating over all bond vectors $\iterationThis{\rattleBondPos}\timeInFullStep$ at the $\rattleCorrectionIndexThis$th step of the iterative procedure. Then:
+  \begin{enumerate}
+    \item If a given bond vector $\iterationThis{\rattleBondPos}\timeInFullStep$ satisfies \ref{eq:rattle_constraints_posApprox}, then $\iterationThis{\rattleLagrangeApprox}(t) = 0$, and thus
+    \begin{align*}
+      \iterationNext{\rattleBondVel}\timeInHalfStep
+        &= \iterationThis{\rattleBondVel}\timeInHalfStep \\
+      \iterationNext{\rattleBondPos}\timeInFullStep
+        &= \iterationThis{\rattleBondPos}(\timeInFullStep)
+    \end{align*}
+    \item Otherwise, $\iterationThis{\rattleLagrangeApprox}(t)$ needs to be calculated; once it is calculated, one can find the corrective displacements $\dlt{\iterationThis{\rattleBondVel}\timeInHalfStep}$ and $\dlt{\iterationThis{\rattleBondPos}\timeInFullStep}$ according to equations \ref{eq:rattle_integration_deltaBondVelocityHalfStep} and \ref{eq:rattle_integration_deltaBondPositionFullStep}. Then
+    \begin{align*}
+      \iterationNext{\rattleBondVel}\timeInHalfStep
+        &= \iterationThis{\rattleBondVel}\timeInHalfStep
+          + \dlt{\iterationThis{\rattleBondVel}\timeInHalfStep} \\
+      \iterationNext{\rattleBondPos}\timeInFullStep
+        &= \iterationThis{\rattleBondPos}\timeInFullStep
+          + \dlt{\iterationThis{\rattleBondPos}\timeInFullStep}
+    \end{align*}
+    \item If none of the bond vectors were moved at the $\rattleCorrectionIndexThis$th step, then the corrective stage is complete: all bond vectors satisfy \ref{eq:rattle_constraints_posApprox} simulataneosly; otherwise, another iterative step is in order.
+    \item The procedure continues until \ref{eq:rattle_constraints_posApprox} is satisfied for all bond vectors at some step $\rattleCorrectionIndexLast$, or the number of iterations exceeds the allotted maximum $\rattleNCorrections$.
+  \end{enumerate}
+  \par For a discussion of convergence of the above procedure at either of the corrective stages, the original paper \cite{} is a good place to start.
+  %-----------------------------------------------------------------------------

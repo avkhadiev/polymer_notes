@@ -1,0 +1,78 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	     RATTLE: CALCULATING CORRECTIONS: FIRST GAMMA						       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Provides formulae for calculating the approximation of Lagrange multipliers at time t
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsubsection{Calculating $\pmb{\iterationThis{\rattleLagrangeApprox}(t)}$}
+\label{sec:rattle_iterativeCorrection_gamma1}
+  %-----------------------------------------------------------------------------
+  \par Let us begin with $\iterationThis{\rattleLagrangeApprox}(t)$. Suppose that at the $\rattleCorrectionIndexThis$th correction step, a bond vector $\iterationThis{\rattleBondPos}\timeInFullStep$ does not satisy  \ref{eq:rattle_constraints_posApprox} --- a correction is in order, so $\iterationThis{\rattleLagrangeApprox}(t)$ needs to be calculated. This quantity is an approximation to $\iterationThis{\rattleLagrange}(t)$. If we knew $\iterationThis{\rattleLagrange}(t)$, we could calculate $\iterationNext{\rattleBondPos}\timeInFullStep$ in such a way so as to satisfy the constraint exactly. That would mean:
+  \begin{align*}
+    \rattleBondlength^2
+    &- \vectornorm{\iterationNext{\rattleBondPos}\timeInFullStep}^2 \\
+    &= \rattleBondlength^2
+      - \vectornorm{\iterationNext{\rattleBondPos}\timeInFullStep}^2 \\
+    &= \rattleBondlength^2
+      - \vectornorm{
+          \iterationThis{\rattleBondPos}\timeInFullStep
+          + \iterationThis{\dlt{\rattleBondPos}}\timeInFullStep
+        }^2 \\
+    &= 0
+  \end{align*}
+  \par Where
+  \begin{align*}
+    \iterationThis{\dlt{\rattleBondPos}}\timeInFullStep
+      &= - \timestep^2
+        \iterationThis{\rattleLagrange}(t)
+        \left(
+          \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
+        \right)
+        \rattleBondPos(t)
+  \end{align*}
+  \par Expanding out, we obtain:
+  \begin{widetext}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_firstEquation}
+  \begin{aligned}
+  0 = \left(
+        \rattleBondlength^2 - \vectornorm{\iterationThis{\rattleBondPos}\timeInFullStep}^2
+      \right)
+      &- 2\timestep^2
+        \iterationThis{\rattleLagrange}(t)
+        \left(
+          \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
+        \right)
+        \left(
+          \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+        \right) \\
+      &+ \left(
+          \timestep^2
+          \iterationThis{\rattleLagrange}(t)
+          \left(
+            \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
+          \right)
+        \right)^2
+        \vectornorm{\rattleBondPos(t)}^2 \\
+  \end{aligned}
+  \end{equation}
+  \end{widetext}
+  \par At this point, we will ignore the term quadratic in $\iterationThis{\rattleLagrange}\timeInFullStep$, and solve the resulting linear equation. The solution to this equation will be our approximation of $\iterationThis{\rattleLagrange}\timeInFullStep$: $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$. Thus,
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_calculatingCorrections_lambdaApproxFrist}
+    \iterationThis{\rattleLagrangeApprox}(t)
+      = \frac
+          {\rattleBondlength^2
+            - \vectornorm{\iterationThis{\rattleBondPos}\timeInFullStep}^2}
+          {2\timestep^2
+            \left(
+              \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
+            \right)
+            \left(
+              \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+            \right)}
+  \end{equation}
+  \end{tcolorbox}
+  \par Assumming a reasonable timestep, at no point in the iterative correction should the position vector $\iterationThis{\rattleBondPos}\timeInFullStep$ turn away from $\rattleBondPos(t)$ so much as to be perpendicular to it and yield $\rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep = 0$. However, to avoid division by zero and ensure the algorithm is implemented correctly, it is a good practice to check during the correction stage that this inner product is not too small.
+  %-----------------------------------------------------------------------------

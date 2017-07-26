@@ -1,0 +1,92 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                 RATTLE: THE GIST								                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Describes the essential idea of RATTLE.
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{\rattle: the gist}
+\label{sec:rattle_gist}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par \rattle is a numerical integration scheme based on velocity Verlet.
+  \par The difference between the equations of motion that ordinary velocity Verlet can integrate and the equations of motion that \rattle can integrate is that the latter can contain constraint forces $\rattleConstraintForce$: forces that, at any point in time, act to keep the constrained bond lengths constant.
+
+  \par One can think of the total constraint force $\rattleConstraintForce$ on an atom $\rattleAtomIndex$ as a sum of constraint forces acting along the bonds that include the atom:
+  \begin{equation*}
+      \rattleConstraintForce
+        = \sum_{\rattleAtomIndexSecond} \rattleConstraintForceBond
+  \end{equation*}
+  \par Where $\rattleConstraintForceBond$ is a constraint force on atom $\rattleAtomIndexFirst$ from atom $\rattleAtomIndexSecond$ acting along the bond vector $\rattleBondPos$ so as to keep the bond length constant at any point in time. A constraint force equal in magnitude and opposite in direction is acting on atom $\rattleAtomIndexSecond$.
+  \par Let us have a molecule at time $t$, \emph{with all the constraints satisfied}. That means, $\rattleConstraint (t) = 0$ (and hence $\rattleConstraintDot(t) = 0$) for all unique atomic pairs $\rattleConstraintIndex$ that are bound by a constraint on their bond length. Using the derived form of constraints in equation \ref{eq:rattle_constraint}, this means that
+  \begin{equation}
+  \label{eq:rattle_gist_constraintPos_old}
+     \rattleBondlength^2 - \vectornorm{\rattleBondPos(t)}^2 = 0
+  \end{equation}
+  and
+  \begin{equation}
+  \label{eq:rattle_gist_constraintVel_old}
+     \rattleBondPos(t) \cdot \rattleBondVel(t) = 0
+  \end{equation}
+  \par Where $\rattleBondVel = \rattleAtomVelFirst - \rattleAtomVelSecond$.
+  \par If the constraint forces are not present, we can integrate the equations of motion using ordinary velocity Verlet from $t$ to $t + \timestep$, obtaining ``unconstrained'' positions and velocites $\rattleAtomPosUnconstrained \timeInFullStep$ and $\rattleAtomVelUnconstrained \timeInFullStep$. The resulting positions of atoms may violate the constraints: that is, equations \ref{eq:rattle_gist_constraintPos_old} and \ref{eq:rattle_gist_constraintVel_old} may not hold at time $t + \timestep$. However, assuming a reasonable timestep $\timestep$, the constraints should not be violated ``too much'':  small corrective displacements $\dlt{\rattleAtomPos\timeInFullStep}$ and $\dlt{\rattleAtomVel\timeInFullStep}$ will yield positions and velocities that respect the constraints.
+  \par Since constraint forces on each atom are only acting along the bonds that include the atom, a corrective displacement is also a sum of displacements along the bonds:
+  \begin{equation*}
+  \begin{split}
+    \dlt{\rattleAtomPos}
+      &= \sum_{\rattleAtomIndexSecond} \dlt{\rattleBondPos} \\
+    \dlt{\rattleAtomVel}
+      &= \sum_{\rattleAtomIndexSecond} \dlt{\rattleBondVel}
+  \end{split}
+  \end{equation*}
+  \par Where $\dlt{\rattleBondPos} = \dlt{\rattleAtomPosFirst} - \dlt{\rattleAtomPosSecond}$ and $\dlt{\rattleBondVel} = \dlt{\rattleAtomVelFirst} - \dlt{\rattleAtomVelSecond}$.
+  \par After these corrective displacements are applied to the unconstrained positions $\rattleAtomPosUnconstrained \timeInFullStep$ and velocities $\rattleAtomVelUnconstrained \timeInFullStep$, the constraints at time $t + \timestep$ should be satisfied:
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_gist_constraintPos_new}
+     \rattleBondlength^2
+        - \vectornorm{
+          \rattleBondPosUnconstrained \timeInFullStep
+          + \dlt{\rattleBondPos\timeInFullStep}^2
+        }
+      = 0
+  \end{equation}
+  and
+  \begin{equation}
+  \label{eq:rattle_gist_constraintVel_new}
+     \rattleBondPos \timeInFullStep
+       \cdot \left(
+          \rattleBondVelUnconstrained \timeInFullStep
+          + \dlt{\rattleBondVel\timeInFullStep}
+       \right)
+     = 0
+  \end{equation}
+  \end{tcolorbox}
+  Where $\rattleBondPosUnconstrained = \rattleAtomPosUnconstrainedFirst - \rattleAtomPosUnconstrainedSecond$ and $\rattleBondVelUnconstrained = \rattleAtomVelUnconstrainedFirst - \rattleAtomVelUnconstrainedSecond$.
+  %-----------------------------------------------------------------------------
+  \begin{tcolorbox}
+  \par \textbf{The gist of \rattle is in \emph{approximating} the corrective displacements $\pmb{\dlt{\rattleAtomPos\timeInFullStep}}$ and $\pmb{\dlt{\rattleAtomVel \timeInFullStep}}$ such that all constraints (and their derivatives) at time $\pmb{t + \timestep}$ are simultaneously satisfied to within the specified tolerance $\pmb{\rattleTol}$.}
+  \end{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \par If one thinks of velocity Verlet as a two-stage process, where the stages are separated by the force evaluation loop, then \rattle is a four-stage process, where each velocity Verlet stage is followed by a corrective stage:
+  \begin{enumerate}
+      \item Follow stage I of velocity Verlet:
+      \begin{itemize}
+        \item Start with corrected $\rattlePos(t)$, $\rattleVel(t)$ that respect the constraints, and $\rattleForceNoIndex(t)$.
+        \item Obtain unconstrained $\rattleVelUnconstrained\timeInHalfStep$ and $\rattlePosUnconstrained\timeInFullStep$.
+      \end{itemize}
+      \item First corrective stage:
+      \begin{itemize}
+        \item Calculate $\dlt{\rattleVel\timeInHalfStep}$ and $\dlt{\rattlePos\timeInFullStep}$.
+        \item Apply the corrections to the unconstrained values $\rattleVelUnconstrained\timeInHalfStep$ and  $\rattlePosUnconstrained\timeInFullStep$, obtaining corrected $\rattleVel\timeInHalfStep$ and $\rattlePos\timeInFullStep$ that respect the constraints; store $\rattlePos\timeInFullStep$.
+      \end{itemize}
+      \item Using corrected positions $\rattlePos \timeInFullStep$, calculate the forces $\rattleForceNoIndex \timeInFullStep$; store the values.  Follow stage II of velocity Verlet:
+      \begin{itemize}
+        \item Using corrected velocities at half timestep, $\rattleVel \timeInHalfStep$, and forces $\rattleForceNoIndex \timeInFullStep$, calculate unconstrained velocities at full time step, $\rattleVelUnconstrained\timeInFullStep$
+      \end{itemize}
+      \item Second corrective stage:
+      \begin{itemize}
+        \item Calculate $\dlt{\rattleVel\timeInFullStep}$.
+        \item Apply the correction to $\rattleVelUnconstrained\timeInFullStep$, obtaining corrected $\rattleVel\timeInFullStep$; store the corrected values.
+      \end{itemize}
+  \end{enumerate}

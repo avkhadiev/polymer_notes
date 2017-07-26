@@ -1,0 +1,112 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	             RATTLE: INTEGRATION SCHEME								             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Describes how RATTLE builds off of the velocity Verlet integration scheme
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{\rattle Integration Scheme}
+\label{sec:rattle_constraints}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par How does the modified velocity Verlet integration scheme look like in \rattle? The difference between the two is in constraint forces. If we include the constraint forces $\rattleConstraintForce$ in equations \ref{eq:rattle_velocityVerlet_velocityHalfStep}-\ref{eq:rattle_velocityVerlet_velocityFullStep}, we will obtain the new integration scheme:
+  \begin{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \begin{equation}
+  \begin{split}
+  \label{eq:rattle_integration_velocityHalfStep}
+    \rattleVel \timeInHalfStep
+      &= \rattleVel(t)
+        + \halfstep
+          \frac
+            {\rattleForceNoIndex(t) + \rattleConstraintForceNoIndex(t)}
+            {\rattleMassNoIndex} \\
+      &= \rattleVelUnconstrained\timeInHalfStep
+        + \halfstep \frac{\rattleConstraintForceNoIndex(t)}{\rattleMassNoIndex} \\
+      &= \rattleVelUnconstrained\timeInHalfStep
+        + \dlt{\rattleVel\timeInHalfStep}
+  \end{split}
+  \end{equation}
+  \begin{equation}
+  \begin{split}
+  \label{eq:rattle_integration_positionFullStep}
+    \rattlePos \timeInFullStep
+      &= \rattlePos(t) + \timestep \rattleVel \timeInHalfStep \\
+      &= \rattlePosUnconstrained\timeInFullStep
+          + \dlt{\rattlePos\timeInFullStep}
+  \end{split}
+  \end{equation}
+  %-----------------------------------------------------------------------------
+  \begin{alignat}{4}
+  \label{eq:rattle_integration_velocityFullStep}
+    \rattleVel \timeInFullStep
+      &= \rattleVel\timeInHalfStep
+        &+&  \halfstep
+          \frac{\rattleForceNoIndex\timeInFullStep}{\rattleMassNoIndex} \nonumber \\
+        &&+& \halfstep
+          \frac
+            {\rattleConstraintForceNoIndex\timeInFullStep}
+            {\rattleMassNoIndex} \nonumber \\
+      &= \rattleVelUnconstrained\timeInFullStep
+        &+& \halfstep
+          \frac
+            {\rattleConstraintForceNoIndex\timeInFullStep}
+            {\rattleMassNoIndex} \nonumber \\
+      &= \rattleVelUnconstrained\timeInFullStep
+        &+& \dlt{\rattleVel\timeInFullStep}
+  \end{alignat}
+  %-----------------------------------------------------------------------------
+  \end{tcolorbox}
+  \par Where we have identified unconstrained velocity and position values, and defined the corrective displacements:
+  \begin{tcolorbox}
+  %-----------------------------------------------------------------------------
+  \begin{align}
+  \label{eq:rattle_integration_deltaVelocityHalfStep}
+    \dlt{\rattleAtomVel\timeInHalfStep}
+      &= \halfstep \frac{\rattleConstraintForce(t)}{\rattleMass} \\
+  %-----------------------------------------------------------------------------
+  \label{eq:rattle_integration_deltaPositionFullStep}
+    \dlt{\rattleAtomPos\timeInFullStep}
+      &= \timestep \dlt{\rattleAtomVel\timeInHalfStep} \\
+  %-----------------------------------------------------------------------------
+  \label{eq:rattle_integration_deltaVelocityFullStep}
+    \dlt{\rattleAtomVel\timeInFullStep}
+      &= \frac{\rattleConstraintForce\timeInFullStep}{\rattleMass}
+  \end{align}
+  %-----------------------------------------------------------------------------
+  \end{tcolorbox}
+  \par Since $\dlt{\rattleAtomPos\timeInFullStep}$ can be easily expressed via $\dlt{\rattleAtomVel\timeInHalfStep}$, we only need to concern ourselves with $\dlt{\rattleAtomVel\timeInHalfStep}$ and $\dlt{\rattleAtomVel\timeInFullStep}$. We can expand $\rattleConstraintForce$ as $\sum_{\rattleAtomIndexSecond}\rattleConstraintForceBond$ where, in turn, each summand can be expressed via Lagrange multipliers and bond vectors using equation \ref{eq:rattle_constraintForce}, yielding:
+  \begin{align*}
+    \dlt{\rattleAtomVel\timeInHalfStep}
+      &= \sum_{\rattleConstraintIndex}
+        \left(
+            - \timestep \rattleLagrange(t)\rattleBondPos(t)
+        \right) \\
+      &= \sum_{\rattleConstraintIndex} \dlt{\rattleBondVel\timeInHalfStep} \\
+    \dlt{\rattleAtomVel\timeInFullStep}
+      &= \sum_{\rattleConstraintIndex}
+      \left(
+          - \timestep \rattleLagrange\timeInFullStep\rattleBondPos\timeInFullStep
+      \right) \\
+      &= \sum_{\rattleConstraintIndex} \dlt{\rattleBondVel\timeInFullStep} \\
+  \end{align*}
+  \par Where we defined $\dlt{\rattleBondVel\timeInHalfStep}$ and $\dlt{\rattleBondVel\timeInFullStep}$, and the definition of $\dlt{\rattleBondPos\timeInFullStep}$ follows from \ref{eq:rattle_integration_deltaPositionFullStep}:
+  \begin{tcolorbox}
+  %-----------------------------------------------------------------------------
+    \begin{align}
+    \label{eq:rattle_integration_deltaBondVelocityHalfStep}
+      \dlt{\rattleBondVel\timeInHalfStep}
+        &=  - \timestep \rattleLagrange(t)\rattleBondPos(t) \\
+  %-----------------------------------------------------------------------------
+    \label{eq:rattle_integration_deltaBondPositionFullStep}
+      \dlt{\rattleBondPos\timeInFullStep}
+        &=  - \timestep^2 \rattleLagrange(t)\rattleBondPos(t) \\
+  %-----------------------------------------------------------------------------
+    \label{eq:rattle_integration_deltaBondVelocityFullStep}
+      \dlt{\rattleBondVel\timeInFullStep}
+        &= - \timestep \rattleLagrange\timeInFullStep\rattleBondPos\timeInFullStep
+    \end{align}
+  %-----------------------------------------------------------------------------
+  \end{tcolorbox}
+  \par Since we can find the bond vectors and know the timestep, the problem of calculating the corrective steps is reduced to finding the Lagrange multipliers at times $t$ and $t + \timestep$.
+  %-----------------------------------------------------------------------------

@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	                    DEFINITIONS								                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------------------------------------------------------
+\newcommand*\rattle{\textsf{RATTLE} }       % display name of algorithm
+%-------------------------------------------------------------------------------
+\newcommand*\rattlePos{\vec{r}}             % position vector
+\newcommand*\rattleVel{\vec{v}}             % velocity vector
+\newcommand*\rattleAcc{\vec{a}}             % acceleration vector
+%-------------------------------------------------------------------------------
+\newcommand*\rattleMassNoIndex{m}
+\newcommand*\rattleForceNoIndex{\vec{F}}
+\newcommand*\rattleConstraintForceNoIndex{\vec{G}}
+\newcommand*\rattleConstraintNoIndex{\sigma}
+\newcommand*\rattleLagrangeNoIndex{\lambda}
+\newcommand*\rattleLagrangeApproxNoIndex{\gamma}
+\newcommand*\rattleCorrectiveValueNoIndex{g}
+%---------------------Definitions for General Formulation ----------------------
+\input{rattle/general/definitions}
+%-----------------------------------Indexing------------------------------------
+\newcommand*\rattleAtomIndex{a}               % solo atom index
+\newcommand*\rattleAtomIndexFirst{a}          % first index in atomic pair
+\newcommand*\rattleAtomIndexSecond{b}         % second index in atomic pair
+\newcommand*\rattleNAtoms{N}                  % number of atoms
+\newcommand*\rattleConstraintSet{K}           % set of constraints
+\newcommand*\rattleConstraintIndex            % index for constraints
+  {\left(
+    \rattleAtomIndexFirst,\,\rattleAtomIndexSecond
+  \right) \in \rattleConstraintSet}
+\newcommand*\rattleConstraintIndexSimple      % simplified index for constraints
+  {\rattleAtomIndexFirst\rattleAtomIndexSecond}
+\newcommand*\rattleCorrectionIndex{i}         % index for iterative correction
+\newcommand*\rattleCorrectionIndexThis        % current for iterative correction
+  {\rattleCorrectionIndex}
+\newcommand*\rattleCorrectionIndexNext        % next for iterative correction
+    {\rattleCorrectionIndex + 1}
+\newcommand*\rattleCorrectionIndexLast{m}     % last step of correction
+\newcommand*\rattleNCorrections{M}            % number of iterative corrections
+%-----------------------------------Dynamics------------------------------------
+\newcommand*\rattleMass                       % solo atomic mass
+  {\rattleMassNoIndex_{\rattleAtomIndex}}
+\newcommand*\rattleMassFirst                  % first atomic mass in pair
+    {\rattleMassNoIndex_{\rattleAtomIndexFirst}}
+\newcommand*\rattleMassSecond                 % second atomic mass in pair
+    {\rattleMassNoIndex_{\rattleAtomIndexSecond}}
+\newcommand*\rattleForce
+  {\rattleForceNoIndex_{\rattleAtomIndex}}
+\newcommand*\rattleConstraintForce            % solo constraint force
+  {\rattleConstraintForceNoIndex_{\rattleAtomIndex}}
+\newcommand*\rattleConstraintForceFirst       % first constraint force in pair
+    {\rattleConstraintForceNoIndex_{\rattleAtomIndexFirst}}
+\newcommand*\rattleConstraintForceSecond      % second constraint force in pair
+    {\rattleConstraintForceNoIndex_{\rattleAtomIndexSecond}}
+\newcommand*\rattleConstraintForceBond        % constraint force along bond
+        {\rattleConstraintForceNoIndex_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleConstraint
+  {\rattleConstraintNoIndex_{\rattleConstraintIndexSimple}}
+  \newcommand*\rattleConstraintDot
+    {\dot{\rattleConstraintNoIndex}_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleLagrange
+    {\rattleLagrangeNoIndex_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleLagrangeApprox
+        {\rattleLagrangeApproxNoIndex_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleCorrectiveValue
+  {\rattleCorrectiveValueNoIndex_{\rattleConstraintIndexSimple}}
+%-----------------------------IterativeCorrection-------------------------------
+\newcommand*\iteration[2]{#1^{(#2)}}            % iterative correction steps
+\newcommand*\iterationThis[1]                   % arg^{i}
+  {\iteration{#1}{\rattleCorrectionIndexThis}}
+\newcommand*\iterationNext[1]                   % arg^{i+1}
+  {\iteration{#1}{\rattleCorrectionIndexNext}}
+%----------------------------------Vectors--------------------------------------
+\newcommand*\rattleAtomPos{\rattlePos_{\rattleAtomIndex}}
+\newcommand*\rattleAtomPosFirst{\rattlePos_{\rattleAtomIndexFirst}}
+\newcommand*\rattleAtomPosSecond{\rattlePos_{\rattleAtomIndexSecond}}
+\newcommand*\rattleAtomVel{\rattleVel_{\rattleAtomIndex}}
+\newcommand*\rattleAtomVelFirst{\rattleVel_{\rattleAtomIndexFirst}}
+\newcommand*\rattleAtomVelSecond{\rattleVel_{\rattleAtomIndexSecond}}
+\newcommand*\rattlePosUnconstrained             % r^{(0)}
+  {\iteration{\rattlePos}{0}}
+\newcommand*\rattleVelUnconstrained             % v^{(0)}
+  {\iteration{\rattleVel}{0}}
+\newcommand*\rattleAtomPosUnconstrained         % r^{(0)}
+  {\iteration{\rattleAtomPos}{0}}
+\newcommand*\rattleAtomVelUnconstrained         % v^{(0)}
+  {\iteration{\rattleAtomVel}{0}}
+\newcommand*\rattleBondPos{\rattlePos_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleBondPosUnit{\hat{\rattlePos}_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleBondVel{\rattleVel_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleBondVelUnit{\hat{\rattleVel}_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleBondPosUnconstrained
+  {\iteration{\rattleBondPos}{0}}
+\newcommand*\rattleBondVelUnconstrained
+  {\iteration{\rattleBondVel}{0}}
+\newcommand*\rattleAtomPosUnconstrainedFirst
+    {\iteration{\rattleAtomPosFirst}{0}}
+\newcommand*\rattleAtomPosUnconstrainedSecond
+    {\iteration{\rattleAtomPosSecond}{0}}
+\newcommand*\rattleAtomVelUnconstrainedFirst
+    {\iteration{\rattleAtomVelFirst}{0}}
+\newcommand*\rattleAtomVelUnconstrainedSecond
+    {\iteration{\rattleAtomVelSecond}{0}}
+%---------------------------------Constants-------------------------------------
+\newcommand*\rattleBondlength                   % fixed bond length
+  {d_{\rattleConstraintIndexSimple}}
+\newcommand*\rattleTol{\xi}                     % d-r/d tolerance
+\newcommand*\rattleRRTol{\varepsilon}           % r(t) * r(t+dt) tolerance
+\newcommand*\rattleRVTol{\rattleTol}            % v(t)/d tolerance
+%-------------------------------------------------------------------------------

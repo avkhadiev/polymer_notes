@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	              RATTLE: CONSTRAINTS								                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Describes how the constraints are solved to within the desired tolerance in RATTLE.
+%-------------------------------------------------------------------------------
+% Section names and labels
+\subsection{Solving Constraints Approximately}
+\label{sec:rattle_constraints}
+  %-----------------------------------------------------------------------------
+  % Add text directly into the main file, or use \input statements
+  %-----------------------------------------------------------------------------
+  \par In fact, if we are trying to solve the constraints to within a given tolerance --- that is, if we are trying to satisfy the inequalities
+  \begin{tcolorbox}
+  \begin{equation}
+  \label{eq:rattle_constraints_posApprox}
+     \frac{\scalarnorm{\rattleBondlength
+        - \vectornorm{\rattleBondPos \timeInFullStep}}}
+          {\rattleBondlength}
+      < \rattleTol
+  \end{equation}
+  and
+  \begin{equation}
+  \label{eq:rattle_constraints_velApprox}
+     \frac{\timestep
+            \scalarnorm{
+            \rattleBondPosUnit \timeInFullStep
+              \cdot \rattleBondVel \timeInFullStep
+           }}
+          {\rattleBondlength}
+     < \rattleRVTol
+  \end{equation}
+  \end{tcolorbox}
+  \par --- then we do not need to the exact Largrange multipliers $\rattleLagrange\timeInHalfStep$ and $\rattleLagrange\timeInFullStep$: some approximations $\rattleLagrangeApprox\timeInHalfStep$ and $\rattleLagrangeApprox\timeInFullStep$ will suffice, as long as inequalities \ref{eq:rattle_constraints_posApprox} and \ref{eq:rattle_constraints_velApprox} are respected.
+  \par In particular, suppose the unconstrained positions $\rattleAtomPosUnconstrained\timeInFullStep$ and velocities $\rattleAtomVelUnconstrained\timeInFullStep$ satisfy the inequalities \ref{eq:rattle_constraints_posApprox}-\ref{eq:rattle_constraints_velApprox}: then, there is no need to correct them; in this case, even though the exact Lagrange multipliers $\rattleLagrange$ may be non-zero, we may take $\rattleLagrangeApprox = 0$, foregoing all corrections and completing the integration step.
+  \par Otherwise, at least one bond vector $\rattleBondPosUnconstrained$  violates \ref{eq:rattle_constraints_posApprox} after the first stage of velocity Verlet (or at least one bond velocity $\rattleBondVelUnconstrained$ violates \ref{eq:rattle_constraints_velApprox} after the second stage of velocity Verlet). In this case, we would need to compute the Lagrange multiplier approximation $\rattleLagrangeApprox(t)$ (or $\rattleLagrangeApprox\timeInFullStep$), and correct $\rattleBondPosUnconstrained$ (or $\rattleBondVelUnconstrained$).
+  \par However, if either of the atoms included in the corrected bond is also included in another bond, the constraint corresponding to that bond may now be destroyed beyond the specified tolerance. Then another correction is in order. What should we do?
+  %-----------------------------------------------------------------------------

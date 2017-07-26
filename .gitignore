@@ -12,7 +12,7 @@
 *.cb2
 
 ## Image folder
-images/*
+**/images/*
 
 # Ignore all files in "build" folders
 **/build/

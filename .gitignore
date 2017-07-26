@@ -11,12 +11,11 @@
 *.cb
 *.cb2
 
-## Image folders and images
+# Ignore images
 **/images/*
 *.png
 *.jpg
 *.jpeg
-
 
 # Ignore all files in "build" folders
 **/build/

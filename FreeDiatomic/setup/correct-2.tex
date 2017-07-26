@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	    RATTLE -> CORRECTION 2				    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Correction of Velocity at Full Step}
+\label{sec:rattle-correct-2}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par We wish to iteratively update the velocity at full step as 
+\begin{equation}
+\label{eq:rattle-update-2}
+\begin{aligned}
+	\mathbf{v}_A^{(i + 1)}(t + \delta t) &= \mathbf{v}_A^{(i)}(t + \delta t) + \frac{ k_{AB} \mathbf{r}_{AB} (t + \delta t) }{m_A} \\
+	\mathbf{v}_B^{(i + 1)}(t + \delta t) &= \mathbf{v}_B^{(i)}(t + \delta t) - \frac{ k_{AB} \mathbf{r}_{AB} (t + \delta t) }{m_B} 
+\end{aligned}
+\end{equation}
+\par Where $k_{AB}$ is determined with the derivatie of the constraint equation:
+\begin{equation*}	
+	\mathbf{r}_{AB}(t + \delta t) \cdot \mathbf{v}_{AB}^{(i)}(t + \delta t) = 0
+\end{equation*}
+which means that 
+\begin{equation*}
+	k_{AB} = - \frac{ \mathbf{r}_{AB}(t + \delta t) \cdot \mathbf{v}_{AB}^{(i)}(t + \delta t) }{ (\frac{1}{m_A} + \frac{1}{m_B}) d_{AB}^2 }
+\end{equation*}
+\par The correction is performed if 
+\begin{equation*}
+	\left| \mathbf{r}_{AB}(t + \delta t) \cdot \mathbf{v}_{AB}^{(i)} \right| > \eta d_{AB}^2
+\end{equation*}
+where $\eta$ is the specified tolerance.
+\par Having corrected the velocity, we move on to the next bond, marking the corrected atoms as being moved in this iterative step. We repeat the process until all constraints are satisfied to within the specified tolerance, or until the number of iterations exceeds the specified maximum $M$. If the last iteration is $m$, the corrected velocities at full step are
+\begin{equation*}
+\mathbf{v}(t + \delta t) = \mathbf{v}^{(m)}(t + \delta t)
+\end{equation*}
+Which concludes the Verlet step with constraints.
+\par Bookkeeping can be done at this point, such as updating the constraint virial to check whether the average over all molecules is $0$ at time $t + \delta t$
+\begin{equation*}
+	\mathcal{W}_C \rightarrow \mathcal{W}_C + \frac{2 k_{AB} d_{AB}^2}{3 \delta t }
+\end{equation*}
+The multiplication by 2 in the numerator is due to the definition of $k_{AB}$ where a factor of 2 was omitted.

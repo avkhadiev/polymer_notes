@@ -1,0 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	    SHAKE -> VERLET STEP			        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Verlet Step}
+\label{sec:shake-verlet-step}
+%---------- ------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par The positions at the next timestep in the absence of constraints are calculated for each atom $a$ in the usual way, using the  Verlet scheme:
+\begin{equation}
+\label{eq:shake-verlet}
+\mathbf{r^{(0)}}_a(t + \delta t) = 2 \mathbf{r}_a(t) - \mathbf{r}_a(t - \delta t) + \frac{\delta t^2}{m_a} \mathbf{F}_a(t)
+\end{equation}
+where $\mathbf{F}_a(t)$ is the force on atom $a$ at time $t$ due to ``intermolecular interactions and those intramolecular effects explicitly included in the potential''\cite{allen} (those effects do not include the fictitious constraint forces).
+\par These positions of atoms calculated in the absence of constraint forces can be thought of as the zeroeth step in the iterative correction procedure described above --- hence the notation.

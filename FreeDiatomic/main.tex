@@ -1,0 +1,129 @@
+\documentclass[%
+    %reprint,
+    %superscriptaddress,
+    %groupedaddress,
+    %unsortedaddress,
+    %runinaddress,
+    %frontmatterverbose, 
+    preprint,
+    longbibliography,
+    bibnotes,
+    %showpacs,preprintnumbers,
+    %nofootinbib,
+    %nobibnotes,
+    %bibnotes,
+     amsmath,amssymb,
+     aps,
+    %pra,
+    %prb,
+    %rmp,
+    %prstab,
+    %prstper,
+    %floatfix,
+    ]{revtex4-1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	  LIBRARIES							    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add whatever libraries you need here. Add a description if you want
+\usepackage{graphicx}			% Include figure files
+\usepackage{dcolumn}			% Align table columns on decimal point
+%\usepackage{bm}				% bold math
+\usepackage{tcolorbox}			% use tcolorbox environment to box equations
+\usepackage{dsfont} 			% double-stroke font (e.g. identity function is \mathds{1}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage{slashed} 			% Feynman slash notation: \slashed{}
+\usepackage{chemformula}
+\usepackage{booktabs}						
+\usepackage{makecell}
+\usepackage{fullpage}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings} 			% For code citations 
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{commath}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{graphicx}
+	\graphicspath{ {images/} }
+\usepackage{feynmp-auto}
+\usepackage[toc,page]{appendix}	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	 NEW COMMANDS							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add whatever custom commands you need to define here. 
+\newcommand*\diff{\mathop{}\!\mathrm{d}}		% differential d
+\newcommand*\Diff[1]{\mathop{}\!\mathrm{d^#1}}	% d^(...)
+\DeclareMathOperator{\diag}{diag} 				% diag(...)	
+\setlength{\parindent}{0pt}						% do not indent 		
+\numberwithin{equation}{section}
+% make matrices stretch by adding a stretching factor 
+% when beginning the matrix environment, e.g.,
+% begin{pmatrix}[1.5]
+%---------------------------------------------------
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{%
+  \edef\arraystretch{#1}%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols c}}
+\makeatother
+%---------------------------------------------------
+%----------------------------------------------------------------
+\begin{document}
+\lstset{language=Python}     			% set code language to Python 	
+%----------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							TITLE								%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Free Diatomic MD}
+%\thanks{}
+\author{Artur Avkhadiev}
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	  ABSTRACT							    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}  
+\end{abstract}
+\maketitle
+%\tableofcontents						 % hide table of contents
+%----------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	    BODY							    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add include statements below. All text should be in the folders,
+% the main.tex file is only for the title, abstract, references, 
+% and all the \input statements. 
+\input{setup/main}
+\input{results/main}
+\input{remarks/main}
+%----------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	 APPENDICES							    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add all appendices in appendices/main.tex with include statements.
+% see appendices/sub-example-app.tex for an example.
+%\input{appendices/main}						
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					    BIBLIOGRAPHY							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The bibliography file is reference,bib. If you need to add a 
+% reference, make sure all the entries look good (e.g., ensure 
+% proper capitalization by putting {} around the letters to be 
+% capitalized. Reference the books by chapters! That is, make 
+% separate entires for different chapters of textbooks. See entires
+% like Srednicki-75, Srednicki-76 for an example.
+\nocite{*}
+\bibliographystyle{apalike}
+\bibliography{reference}
+%----------------------------------------------------------------
+\end{document}

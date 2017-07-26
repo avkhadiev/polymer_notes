@@ -1,0 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	    RATTLE  VERLET 1			        	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{First Verlet Half-Step}
+\label{sec:rattle-verlet-1}
+%---------- ------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par First, we compute position vectors at full step and velocity vectors at half-step in the absence of constraint forces:
+\begin{equation}
+\label{eq:rattle-verlet-1}
+\begin{aligned}
+	\mathbf{r}^{(0)}(t + \delta t) &= \mathbf{r}(t) + \delta t \mathbf{v}(t) + \frac{1}{2m}\delta t^2 \mathbf{F}(t) \\
+	\mathbf{v}^{(0)}(t + \frac{1}{2} \delta t) &= \mathbf{q}^{(0)} = \mathbf{v}(t) + \frac{1}{2} \delta t \mathbf{F}(t)
+\end{aligned}
+\end{equation}

@@ -1,0 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	  SHAKE -> TOLERANCE CHECKS		            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Tolerance Checks}
+\label{sec:shake-tolerance-checks}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+Let us call the desired bond length $d_{AB}$. Assuming the bond length constraint was satisfied at the previous time step, 
+\begin{equation*}
+\begin{aligned}
+d^2_{AB} 	  &= \left|\mathbf{r}_{AB}(t)\right|^2 = \left|\mathbf{r}_A(t) - \mathbf{r}_B (t)\right|^2	\\
+\Delta_{AB} &= |\mathbf{r}_{AB}(t)|^2 - |\mathbf{r}^{(i)}_{AB}(t + \delta t)|^2
+\end{aligned}
+\end{equation*}
+The program is to check whether
+\begin{equation}
+\label{eq:check-rab}
+\left| \Delta_{AB} \right| < 2\xi d^2_{AB} 
+\end{equation}
+where $\xi$ is the specified tolerance threshold.
+\par If the bond length constraint is respected within the tolerance threshold, the program moves on to the next bond $n+1$ and the corresponding pair of atoms $A = n+1$ and $B = n+2$; otherwise a correction is in order. In this case, before calculating the force along the bond, another check is performed. This check is concerned with the turning of the bond vector between time steps $t$ and $t + \delta t$: roughly, the ``turning angle'' between the vectors $\mathbf{r}_{AB}(t)$ and $\mathbf{r}^{(i)}_{AB}(t + \delta t)$ cannot be too big. First, a dot product of the two vectors is calculated:
+\begin{equation}
+\label{eq:bond-angle-deltaab}
+\delta_{AB} = \mathbf{r}_{AB}(t) \cdot \mathbf{r}^{(i)}_{AB}(t + \delta t)
+\end{equation}
+Then a check is performed:
+\begin{equation}
+\label{eq:check-deltaab}
+\delta_{AB} > \varepsilon d^2_{AB} 
+\end{equation}
+where $\varepsilon$ is the specified tolerance threshold for the cosine of the ``turning angle''. If this constraint is not satisfied, a flag is raised and the program fails. Otherwise the program moves on to correcting the atomic positions.

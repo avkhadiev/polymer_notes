@@ -1,0 +1,67 @@
+\subsubsection{$\left( r_{a = 1} \right)_y(t)$ from $\frac{t}{T} \in \left[ 8, 10\right] \cup \left[ 98, 100\right]$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  				    FIGURE 					       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOLERANCE 1 * 10^{-7}
+% 8-10 t/T
+\begin{figure}[h]
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p0000001_ry_vs_sampleTime_endtime_0p001.png}}
+		\caption{tolerance $1 \times 10^{-7}$, $\frac{t}{T}$ from $8$ to $10$}
+	\end{subfigure}
+	\hfill
+	% 98-100 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p0000001_ry_vs_sampleTime_endtime_0p01.png}}
+		\caption{tolerance $1 \times 10^{-7}$, $\frac{t}{T}$ from $98$ to $100$}
+	\end{subfigure}
+	\vfill
+	% TOLERANCE 1 * 10^{-5}
+	% 8-10 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p00001_ry_vs_sampleTime_endtime_0p001.png}}
+		\caption{tolerance $1 \times 10^{-5}$, $\frac{t}{T}$ from $8$ to $10$}
+	\end{subfigure}
+	\hfill
+	% 98-100 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p00001_ry_vs_sampleTime_endtime_0p01.png}}
+		\caption{tolerance $1 \times 10^{-5}$, $\frac{t}{T}$ from $98$ to $100$}
+	\end{subfigure}
+	\vfill
+	% TOLERANCE 1 * 10^{-3}
+	% 8-10 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p001_ry_vs_sampleTime_endtime_0p001.png}}
+		\caption{tolerance $1 \times 10^{-3}$, $\frac{t}{T}$ from $8$ to $10$}
+	\end{subfigure}
+	\hfill
+	% 98-100 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p001_ry_vs_sampleTime_endtime_0p01.png}}
+		\caption{tolerance $1 \times 10^{-3}$, $\frac{t}{T}$ from $98$ to $100$}
+	\end{subfigure}
+	\vfill
+	% TOLERANCE 1 * 10^{-1}
+	% 8-10 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p1_ry_vs_sampleTime_endtime_0p001.png}}
+		\caption{tolerance $1 \times 10^{-1}$, $\frac{t}{T}$ from $8$ to $10$}
+	\end{subfigure}
+	\hfill
+	% 98-100 t/T
+	\begin{subfigure}[b]{0.49\textwidth}
+		{\includegraphics[width=\textwidth]
+			{tol_0p1_ry_vs_sampleTime_endtime_0p01.png}}
+		\caption{tolerance $1 \times 10^{-1}$, $\frac{t}{T}$ from $98$ to $100$}
+	\end{subfigure}
+	\caption{\label{fig:res-ry-1} The y-coordinate of the position vector of one of the atoms in the diatomic molecule, at various tolerance levels and  different times ($\frac{t}{T} \in \left[ 8, 10\right] \cup \left[ 98, 100\right]$) during the simulation. The two different tolerances in the $\textsf{RATTLE}$ algorithm were set equal.}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

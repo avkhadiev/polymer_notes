@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	  RATTLE -> INTRODUCTION				    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.				
+\subsection{Theory}
+\label{sec:rattle-theory}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par The Velocity Verlet integration scheme is as follows \cite{allen}:
+\begin{equation}
+\label{eq:velocity-verlet}
+\begin{aligned}
+	\mathbf{v}(t + \frac{1}{2}\delta t) &= \mathbf{v}(t) + \frac{1}{2 m} \delta t (\mathbf{F}(t) + \mathbf{G}(t))	\\
+	\mathbf{r}(t + \delta t) &= \mathbf{r}(t) + \delta t \mathbf{v}(t + \frac{1}{2}\delta t) 			\\
+	\mathbf{v}(t + \delta t) &= \mathbf{v}(t + \frac{1}{2}\delta t) + \frac{1}{2 m} \delta t (\mathbf{F}(t + \delta t) + \mathbf{G}(t + \delta t))
+\end{aligned}
+\end{equation}
+\par The notation used to describe the SHAKE algorithm remains: $\mathbf{G}$ represents the constraint forces that act to preserve the bond lengths. This scheme can be rewritten for future convenience as \cite{Rattle}:
+\begin{equation}
+\label{eq:rattle-velocity-verlet}
+\begin{aligned}
+	\mathbf{r}(t + \delta t) &= \mathbf{r}(t) + \delta t \mathbf{v}(t) + \frac{1}{2m} \delta t^2 (\mathbf{F}(t) + \mathbf{G}(t)) \\
+	\mathbf{v}(t + \delta t) &= \mathbf{v}(t) + \frac{1}{2m} ((\mathbf{F}(t) + \mathbf{G}(t)) + (\mathbf{F}(t + \delta t) + \mathbf{G}(t + \delta t))
+\end{aligned}
+\end{equation}
+\par In SHAKE, the value of $\mathbf{G}$ was determined to satisfy the constraint within given tolerance: $\mathbf{r}_{AB} \cdot \mathbf{r}_{AB} = d_{AB}^2$. RATTLE uses the same constraint to determine $\mathbf{G}(t)$ in the position equation; however, not that we also have $\dot{\mathbf{r}}$ in our integration scheme, the time derivative of the constraint has to be satisfied within given tolerance as well: $\mathbf{r}_{AB} \cdot \dot{\mathbf{r}}_{AB} = 0$. This constraint is used to determine $\mathbf{G}(t + \delta t)$ in the velocity equation. 
+\par Define \cite{Rattle}:
+\begin{tcolorbox}
+\begin{equation}
+\label{eq:rattle-definitions}
+\begin{aligned}	
+	g_{AB} &= - \delta t \lambda_{R}(t)					\\
+	k_{AB} &= - \delta t \lambda_{V}(t + \delta t)		\\
+	\mathbf{q}_a &= \mathbf{v}(t) + \frac{\delta t}{2 m} - \frac{1}{m} \sum_{B} g_{AB} \mathbf{r}_{AB}(t)
+\end{aligned}
+\end{equation}
+\end{tcolorbox}
+\par Where $\lambda_{R}(t)$ and $\lambda_{V}(t + \delta t)$ are the approximations that we make to the Lagrange multipliers that correspond to the magnitude of constraint forces at times $t$ and $t + \delta t$, respectively. Unlike in SHAKE, we have ommited a factor $2$ in the definitions of the quantities related to constraint forces ($g_{AB}$ and $k_{AB}$): the factor of $2$ came from applying $\nabla_{a}$ to $r^2_{AB}$ in the constraint equations; here it is cancelled by a factor of $2$ that would have been in the denominator in the last term of of the third equation.
+\par Then equations \ref{eq:rattle-velocity-verlet} can be written as \cite{Rattle}:
+\begin{equation*}
+\begin{aligned}
+	\mathbf{r}(t + \delta t) &= \mathbf{r}(t) + \delta t \mathbf{q}(t)	\\
+	\mathbf{v}(t + \delta t) &= \mathbf{q}(t) + \frac{\delta t}{2 m} \mathbf{F}(t + \delta t) - \frac{1}{m} \sum_{B} k_{AB} \mathbf{r}_{AB} (t + \delta t)
+\end{aligned}
+\end{equation*}

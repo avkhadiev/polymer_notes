@@ -1,0 +1,16 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	SHAKE -> TERMINATING LOOP                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Exiting the Position Correction Loop}
+\label{sec:terminating-loop}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par After all bonds are considered at the given iteration step $i$, before moving to step $i + 1$, all atoms that were  ``moving'' are considered ``moved'', and no atoms are considered ``moving''.
+\par The correction process is repeated until no atoms are considered ``moved'' or the number of iterations $m$ exceeds the specified maximum $M$. At this point, position vectors for all atoms at time $t + \delta t$ are obtained:
+\begin{equation}
+	\mathbf{r}_a(t + \delta t) = \mathbf{r}^{(m)}_{a}(t + \delta t)
+\end{equation}

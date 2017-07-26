@@ -1,0 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	SHAKE -> VELOCITY CALCULATION               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Calculation of Velocities}
+\label{sec:velocity-calc}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par Once atomic position vectors at time $t + \delta t$ have been fully corrected, it is possible to calculate the atomic velocities $\mathbf{v}_a(t + \delta t)$ according to the prescription of the Verlet scheme:
+\begin{equation}
+\label{eq:calc-velocities}
+	\mathbf{v}_a(t + \delta t) = \frac{\mathbf{r}_a(t + \delta t) - \mathbf{r}_a(t - \delta t)}{2 \delta t}
+\end{equation}
+This way one can also keep track of the kinetic energy of the system at each time step.

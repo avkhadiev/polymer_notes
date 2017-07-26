@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	  SHAKE -> INTRODUCTION				        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.				
+\subsection{Theory}
+\label{sec:shake-theory}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par First, let us write the atomic position vectors at time $t + \delta t$, $\mathbf{r}_{a}(t + \delta t)$, as 
+\begin{equation}
+\label{eq:shake-setup}
+\mathbf{r}_a(t + \delta t) = \mathbf{r}^{(0)}_a(t + \delta t) + \delta \mathbf{r}_a
+\end{equation} 
+where  $\mathbf{r}^{(0)}_a(t + \delta t)$ are the atomic position vectors that would have been in the absence of constraints at the time $t + \delta t$, and $\delta \mathbf{r}_a$ is the correction due to constraint forces.
+\par The problem at hand is, as usual, to solve the equations of motion with constraints:
+\begin{tcolorbox}
+	\begin{align}
+	\label{eq:shake-eoms}
+	m_{a} \ddot{\mathbf{r}}_a &= \mathbf{F}_a + \mathbf{G}_a 				 	\\
+	\label{eq:constraint-forces}
+	\mathbf{G}_a 	 &= - \sum_{k = 1}^l \lambda_k(t) \nabla_{a} \sigma_k(t)	\\
+	\label{eq:constraints}
+	\sigma_k(t) 	 &= (\mathbf{r}_B(t) - \mathbf{r}_A(t))^2 - d_{AB}^2 = 0
+	\end{align}
+\end{tcolorbox}
+Here, $\mathbf{F}_a(t)$ is the force on atom $a$ at time $t$ due to ``intermolecular interactions and those intramolecular effects explicitly included in the potential''\cite{allen}. Those effects do not include the fictitious constraint forces, $\mathbf{G}_a(t)$. The magnitude of the constraint forces is determined by the time-dependend Lagrange multipliers $\lambda_k(t)$. The number of these multipliers is equal to the number of constraints $\sigma_k(t)$ that keep the bond lenghts fixed.
+\par As Ryckaert,  Ciccotti, and Berendsen \cite{Shake} show, the constraints \ref{eq:constraints} ``are satisfied by adding displacement vectors $\delta \mathbf{r}_a$ to the vectors \ldots which resulted from a nonconstrained timestep'', and the displacement vectors for the Verlet algorithm are given by 
+\begin{tcolorbox}
+	\begin{equation}
+	\label{eq:shake-verlet-displacement}
+	\begin{aligned}
+	\delta \mathbf{r}_a &= - \frac{1}{m_a}(\delta t)^2 \sum_{k = 1}^l \gamma_k ( \nabla_a \sigma_k )_{t} 	\\
+	&= - \frac{2(\delta t)^2}{m_a} \sum_{k = 1}^{l} \gamma_k \mathbf{r}_{AB}(t)
+	\end{aligned}
+	\end{equation} 
+\end{tcolorbox}
+Where $\gamma_k$ are constants equal to $\lambda_k(t)$ up to order $\mathcal{O}(\delta t^2)$.
+\par We can now define
+\begin{equation}
+\label{eq:theory-gab}
+g_{AB} = - 2 (\delta t)^2 \gamma_k
+\end{equation}
+So that $\frac{g_{AB} \mathbf{r}_{AB}(t)}{m_A}$ is the contribution of the $k$th constraint to the displacement $\delta \mathbf{r}_A$. Summing over all such contributions, 
+\begin{equation}
+\label{eq:shake-full-displacement}
+\delta \mathbf{r}_A = \sum_{B} \frac{g_{AB} \mathbf{r}_{AB}(t)}{m_A}
+\end{equation}
+\par The idea of $\textsf{SHAKE}$ is to consider these constraints one-by-one. The correction to the position vector of atom $A$ due to $k$th constraint on the bond between $A$ and $B$ is given by
+\begin{equation*}
+\begin{aligned}
+\delta^k \mathbf{r}_A &= \frac{g_{AB}}{m_A} \mathbf{r}_{AB}(t)		\\
+\delta^k \mathbf{r}_B &= -\frac{g_{AB}}{m_B} \mathbf{r}_{AB}(t)
+\end{aligned}
+\end{equation*}
+\par Consequently, the unconstrained position $\mathbf{r}^{(0)}_a(t + \delta t)$ is corrected by $\sum_{k} \delta^k \mathbf{r}_a$. Since $\textsf{SHAKE}$ considers all constraints in succession, it is convenient to define 
+\begin{equation*}
+\begin{aligned}
+\mathbf{r}^{(i + 1)}_{AB}(t + \delta t) &= \mathbf{r}^{(i)}_{A}(t + \delta t) + \sum_{k^\prime < k} \delta^{k^\prime} \mathbf{r}_A - (\mathbf{r}^{(i)}_{B}(t + \delta t) + \sum_{k^\prime < k} \delta^{k^\prime} \mathbf{r}_B) \\
+\delta \mathbf{r}_{AB} &= \delta^{k} \mathbf{r}_{A} - \delta^{k} \mathbf{r}_{B}
+\end{aligned}
+\end{equation*}
+\par We can now re-write the constraint equation \ref{eq:constraints} as 
+\begin{equation*}
+(\mathbf{r}^{(i)}_{AB}(t + \delta t) + \delta \mathbf{r}_{AB})^2 - d_{AB}^2 = 0
+\end{equation*}
+with
+\begin{equation*}
+\delta \mathbf{r}_{AB} = \left( \frac{1}{m_A} + \frac{1}{m_B} \right) g_{AB} \mathbf{r}_{AB}(t)
+\end{equation*}
+which yields the equation
+\begin{tcolorbox}
+	\begin{equation}
+	\label{eq:shake-main}
+	2\left( \frac{1}{m_A} + \frac{1}{m_B} \right) g_{AB} (\mathbf{r}_{AB}(t) \cdot \mathbf{r}^{(i)}_{AB}(t + \delta t)) + \left( \frac{1}{m_A} + \frac{1}{m_B} \right)^2 g_{AB}^2 \mathbf{r}_{AB}(t)^2 = d_{AB}^2 - \mathbf{r}^{(i)}_{AB}(t + \delta t)^2 
+	\end{equation}
+\end{tcolorbox}
+\par The computation of $k$th constraint partially destroyes that of the previous constraints, so the procedure is iterated until every constraint is satisfied to within the specified tolerance. For computational efficiency, \ref{eq:shake-main} is solved only to first order. This is not bad, since the quadratic term is of order $\mathcal{O}(\delta t^4)$. Moreover, ``the iterative nature of the procedure assures that each quadratic equation is finally also solved to within the specified tolerance'' \cite{Shake}.

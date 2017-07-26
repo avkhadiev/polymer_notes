@@ -1,0 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	    RATTLE  VERLET 2			        	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Second Verlet Half-Step}
+\label{sec:rattle-verlet-2}
+%---------- ------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par Having obtained $\mathbf{r}(t + \delta t)$ and $\mathbf{v}(t + \frac{1}{2} \delta t)$, we can obtain the unconstrained velocity at full step:
+\begin{equation}
+\label{eq:rattle-verlet-1}
+\begin{aligned}
+\mathbf{v}^{(0)}(t + \delta t) &= \mathbf{v}(t + \frac{1}{2} \delta t) + \frac{1}{2m} \delta t \mathbf{F}(t + \delta t)
+\end{aligned}
+\end{equation}
+Where the forces at full step can now be calculated based on positions at full step. Now we can begin the second correction loop, to correct the unconstrained estimate of velocities at full step.

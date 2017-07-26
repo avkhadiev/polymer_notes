@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	    RATTLE -> CORRECTION 1				    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Correction of Position at Full Step and Velocity at Half Step}
+\label{sec:rattle-correct-1}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\par As in SHAKE, we are now to iteratively correct the obtained unconstrained values: in our case, they are positions at full step and velocities at half step. We still have
+\begin{equation*}
+\begin{aligned}
+d^2_{AB} 	  &= \left|\mathbf{r}_{AB}(t)\right|^2 = \left|\mathbf{r}_A(t) - \mathbf{r}_B (t)\right|^2	\\
+\Delta_{AB} &= |\mathbf{r}_{AB}(t)|^2 - |\mathbf{r}^{(i)}_{AB}(t + \delta t)|^2
+\end{aligned}
+\end{equation*}
+And wish to update 
+\begin{equation}
+\label{eq:rattle-update-1}
+\begin{aligned}
+	\mathbf{r}_A^{(i + 1)}(t + \delta t) &= \mathbf{r}_A^{(i)}(t + \delta t) + \frac{ g_{AB} \mathbf{r}_{AB} (t) }{m_A} \\
+	\mathbf{r}_B^{(i + 1)}(t + \delta t) &= \mathbf{r}_B^{(i)}(t + \delta t) - \frac{ g_{AB} \mathbf{r}_{AB} (t) }{m_B} \\
+	\mathbf{v}_A^{(i + 1)}(t + \frac{1}{2 }\delta t) &= \mathbf{v}_A^{(i)}(t + \frac{1}{2}\delta t) + \frac{1}{\delta t}  \frac{ g_{AB} \mathbf{r}_{AB} (t) }{m_A} \\
+	\mathbf{v}_B^{(i + 1)}(t + \frac{1}{2 }\delta t) &= \mathbf{v}_B^{(i)}(t + \frac{1}{2}\delta t) - \frac{1}{\delta t}  \frac{ g_{AB} \mathbf{r}_{AB} (t) }{m_B} \\
+\end{aligned}
+\end{equation}
+if $\left| \Delta_{AB} \right| > 2 \xi d{AB}^2$, where $\xi$ is the specified tolerance. We choose $g_{AB}$ to satisfy the new constraint
+\begin{equation*}
+	\left| \mathbf{r}^{(i+1)}_{AB} \right|^2 = d^2_{AB}
+\end{equation*}
+which, as before, means that 
+\begin{equation}
+	g_{AB} = \frac{ \Delta_{AB} }{2 \delta t (\frac{1}{m_A} + \frac{1}{m_B}) \mathbf{r}_{AB}(t) \cdot \mathbf{r}^{(i)}_{AB}(t + \delta t)}
+\end{equation}
+and we check that
+\begin{equation}
+	\delta_{AB} = \mathbf{r}_{AB}(t) \cdot \mathbf{r}^{(i)}_{AB}(t + \delta t) > \epsilon d_{AB}^2
+\end{equation}
+\par Having calculated $g_{AB}$, we correct positions and velocities according to equations \ref{eq:rattle-update-1} and move on to the next bond, marking the corrected atoms as being moved in this iterative step. We repeat the process until all constraints are satisfied to within the specified tolerance, or until the number of iterations exceeds the specified maximum $M$. If the last iteration is $m$, the corrected positions at full step and velocities at halfstep are
+\begin{equation*}
+\begin{aligned}
+	\mathbf{r}(t + \delta t) &= \mathbf{r}^{(m)}(t + \delta t) 		\\
+	\mathbf{v}(t + \frac{1}{2} \delta t) &= \mathbf{v}^{(m)}(t + \frac{1}{2}\delta t)
+\end{aligned}
+\end{equation*}
+\par Bookkeeping can be done at this point, such as updating the constraint virial to check whether the average over all molecules is $0$ at time $t$
+\begin{equation*}
+\mathcal{W}_C \rightarrow \mathcal{W}_C + \frac{2 g_{AB} d_{AB}^2}{3 \delta t }
+\end{equation*}
+The multiplication by 2 in the numerator is due to the definition of $g_{AB}$ where a factor of 2 was omitted.

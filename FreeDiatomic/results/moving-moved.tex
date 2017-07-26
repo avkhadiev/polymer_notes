@@ -1,0 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	SHAKE -> MOVING AND MOVED              		%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Atoms That Are ``Moving'' and ``Moved''}
+\label{sec:moving-moved}
+%----------------------------
+\par The SHAKE algorithm keeps track of all atoms that were ``moved'' at the previous correction step $i-1$ or are ``moving'' at the current step $i$. At step zero, which corresponds the usual Verlet integration step, all atoms are ``moving'' --- so, before the first correction step $i = 1$, all atoms are considered ``moved'' and none are ``moving''. Keeping track of this information allows to cut down on unnecessary work by not checking those bond lengths whose corresponding atoms were not ``moved'' at the previous correction step. In Allen and Tildesley codes \cite{allen-codes}, this bookkeeping is implemented via two logical arrays $\textsf{MOVING}$ and $\textsf{MOVE}$ of identical length equal to the number of bond lengths in a molecule.

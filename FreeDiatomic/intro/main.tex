@@ -1,0 +1,11 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 	      INTRO             				%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:intro}
+%----------------------------------------------------------------
+% Add text directly into the main file, or use \input statements
+% if the text is too long Keep it neat!
+\par Unless a computer experiment is dealing with free atoms, a molecular dynamics simulation has to know that there is such a thing as a molecule. Clearly, to understand the molecular motion, it is insufficient to consider the equations of motion used for free atoms: molecules are very stable arrangements and some of their parameters, like bond lengths or angles, may stay approximately constant --- whereas in a free atomic gas, such \emph{constraints} are not respected; therefore, there needs to be an additional set of rules to incorporate these molecular constraints into the equations of motion and ensure a realistic simulation.
+\par Let us consider molecular constraints that only fix bond lengths. In this case, the set of rules to respect the molecular constraints is usually realized via fictitious forces acting along the bonds to counterbalance the forces that would otherwise change the bond length. The magnitudes of these fictitious forces at each time step are given by the values of Lagrange multipliers for the constraint equations that keep the bond lengths constant. Allen and Tildesley \cite{allen} provide an extensive treatment of a triatomic molecule to illustrate the approach. However, for bigger molecules like polymer chains, the method is rather cumbersome: for a system with $n$ constraint equations, it requires inverting an $n$-by-$n$ matrix. 
+\par Luckily, the modelling assumption that only near-neighbor atoms and bonds are related by contraint equations is usually very accurate. This way, the matrix of constraint equations becomes sparse, and there should exist special inversion methods to make the calculation faster. Alternatively, there are methods like $\textsf{SHAKE}$ and $\textsf{RATTLE}$. They are discussed in the next sections.

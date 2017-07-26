@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			      	    SHAKE -> CORRECTION				        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you are creating an additional file in this or another folder,
+% copy this header an make appropriate changes.
+\subsection{Position Correction}
+\label{sec:shake-position-correction}
+%----------------------------------------------------------------
+% Add text directly below! Add an \input statement in intro/main
+% where appropriate
+%----------------------------------------------------------------
+\begin{tcolorbox}
+\par The quantity $g_{AB}$ related to the constraint force along the $n$th bond between atoms $A$ and $B$ is calculated according to equation \ref{eq:shake-main}:
+	\begin{equation}
+	\label{eq:gab}
+	g_{AB} = \frac{\Delta_{AB}}{2(m_A^{-1} + m_B^{-1}) \delta_{AB}}
+	\end{equation}
+\end{tcolorbox}
+\par This quantity is used to calculate the correction to atom position vectors:
+%\begin{equation}
+\begin{align}
+	\label{eq:pos-correction-A}
+	\delta \mathbf{r}_A &= \frac{g_{AB}}{m_A} \mathbf{r}_{AB}(t)		\\
+	\label{eq:pos-correction-B}
+	\delta \mathbf{r}_B &= -\frac{g_{AB}}{m_B} \mathbf{r}_{AB}(t)
+\end{align}
+%\end{equation}
+where the minus sign on the equation \ref{eq:pos-correction-B} is because the ``force'' $g_{AB}$ is directed from $B$ to $A$ according to the definition of $\Delta_{AB}$.
+\par The positions of atoms are corrected accordingly:
+\begin{equation}
+	\label{eq:update-pos}
+	\begin{aligned}
+	\mathbf{r}^{(i + 1)}_{A}(t + \delta t) &\rightarrow \mathbf{r}^{(i)}_{A}(t + \delta t) + \delta \mathbf{r}_A \\
+	\mathbf{r}^{(i + 1)}_{B}(t + \delta t) &\rightarrow \mathbf{r}^{(i)}_{B}(t + \delta t) + \delta \mathbf{r}_B 
+	\end{aligned}
+\end{equation}
+\par If the vectors for position of atoms $A=n$ and $B=n+1$ are corrected while looping over the $n$th bond, they are marked as being moved at the current iteration step $i$. 

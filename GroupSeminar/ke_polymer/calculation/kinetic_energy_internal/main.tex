@@ -23,20 +23,20 @@
   \begin{equation}
   \label{eq:k-internal}
     K_{\textrm{internal}} = \onehalf m \bondlength^2
-        C_{ij} \left(\bondvel^{i} \bondvel^{j}\right)
+        C_{ij} \left(\bondvel^{i}\cdot\bondvel^{j}\right)
   \end{equation}
   Where:
   \begin{tcolorbox}
   \begin{equation*}
   \label{eq:matrix-ke-int}
-    C_{jk} = \min (j,\,k)(N+1) - jk
+    C_{jk} = \frac{\min (j,\,k)(N+1) - jk}{N+1}
   \end{equation*}
   \end{tcolorbox}
   \par Thus, the internal kinetic energy of the system is given by:
   \begin{tcolorbox}
   \begin{equation}
       K_{\mathrm{internal}}
-        = \onehalf m\bondlength^2 C_{jk} \bondvel^{j} \bondvel^{k}
+        = \onehalf m\bondlength^2}C_{jk} \bondvel^{j}\cdot\bondvel^{k}
   \end{equation}
   \end{tcolorbox}
 %-------------------------------------------------------------------------------

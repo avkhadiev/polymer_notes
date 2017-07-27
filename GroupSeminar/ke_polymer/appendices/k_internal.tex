@@ -11,7 +11,7 @@
 \begin{equation*}
 \begin{aligned}
   \vel_{i} - \vcm
-    &= \left(\vel_{0} + \bondlength \sum_{j=1}^{i} \bondvel_{j} \right)
+    &= \left(\vel_{0} + \bondlength \sum_{j=1}^{i}\cdot\bondvel_{j} \right)
       - \left( \vcmtargetrep \right) \\
     &= \bondlength \sum_{j=1}^{i} \bondvel_{j}
       - \frac{\bondlength}{N+1} \sum_{j=1}^{N}
@@ -28,7 +28,7 @@
     &= \bondlength^2 \sum_{i = 0}^{N}
       \left(
         \left( \sum_{j = 1}^{i} \bondvel_{j} \right)^2
-        + \left(\frac{1}{N+1}\right)^2 B_{jk} \bondvel^{j} \bondvel^{k}
+        + \left(\frac{1}{N+1}\right)^2 B_{jk} \bondvel^{j}\cdot\bondvel^{k}
         - \frac{2}{N+1}
             \left(A_{j}\bondvel^{j}\right)
             \left(\sum_{k=1}^{i} \bondvel_{k} \right)
@@ -50,7 +50,7 @@ Where $A_{j} = (N + 1 - j)$ and $B_{jk} = (N + 1 - i) (N + 1 - j)$.
     &= \bondlength^2 \sum_{j = 1}^{N} \sum_{k = 1}^{N}
       \left(
         N + 1 - \max (j,\,k)
-      \right) \bondvel_{j} \bondvel_{k}
+      \right) \bondvel_{j}\cdot\bondvel_{k}
 \end{aligned}
 \end{equation*}
 \par The second term in the expression above does not have free indices, so summing over $N+1$ atoms simply gives $N+1$ identical terms.
@@ -67,8 +67,8 @@ Where $A_{j} = (N + 1 - j)$ and $B_{jk} = (N + 1 - i) (N + 1 - j)$.
     \right)
     &= -\bondlength^2 \frac{2}{N+1}
       \sum_{j = 1}^{N} \sum_{k = 1}^{N}
-      (N + 1 - j) (N + 1 - k) \bondvel_{j} \bondvel_{k}  \\
-    &= -\bondlength^2 \frac{2}{N+1} B_{jk} \bondvel^{j} \bondvel^{k}
+      (N + 1 - j) (N + 1 - k) \bondvel_{j}\cdot\bondvel_{k}  \\
+    &= -\bondlength^2 \frac{2}{N+1} B_{jk} \bondvel^{j}\cdot\bondvel^{k}
 \end{aligned}
 \end{equation*}
 %-------------------------------------------------------------------------------
@@ -84,25 +84,25 @@ Where $A_{j} = (N + 1 - j)$ and $B_{jk} = (N + 1 - i) (N + 1 - j)$.
         \left(
         \left(
           N + 1 - \max (j,\,k)
-        \right) \bondvel_{j} \bondvel_{k}
-        + \frac{1}{N+1} B_{jk} \bondvel^{j} \bondvel^{k}
-        - \frac{2}{N+1} B_{jk} \bondvel^{j} \bondvel^{k}
+        \right) \bondvel_{j}\cdot\bondvel_{k}
+        + \frac{1}{N+1} B_{jk} \bondvel^{j}\cdot\bondvel^{k}
+        - \frac{2}{N+1} B_{jk} \bondvel^{j}\cdot\bondvel^{k}
       \right) \\
     &= \bondlength^2 \sum_{j = 1}^{N} \sum_{k = 1}^{N}
       \left(
           \left(
             N + 1 - \max (j,\,k) - \frac{(N+1-j)(N+1-k)}{N+1}
           \right)
-          \bondvel^{j} \bondvel^{k}
+          \bondvel^{j}\cdot\bondvel^{k}
       \right) \\
     &= \frac{\bondlength^2}{N+1}   \sum_{j = 1}^{N} \sum_{k = 1}^{N}
       \left(
         \left(\min (j,\,k)(N+1)-jk\right)
-        \bondvel_{j} \bondvel_{k}
+        \bondvel_{j}\cdot\bondvel_{k}
       \right) \\
-    &= \frac{\bondlength^2}{N+1}
+    &= \bondlength^2}
       \left(
-        C_{jk} \bondvel^{j} \bondvel^{k}
+        C_{jk} \bondvel^{j}\cdot\bondvel^{k}
       \right)
 \end{aligned}
 \end{equation*}
@@ -110,13 +110,13 @@ Where we defined a matrix $C_{jk}$:
 \begin{tcolorbox}
 \begin{equation*}
 \label{eq:matrix-ke-int}
-  C_{jk} = \min (j,\,k)(N+1)-jk
+  C_{jk} = \frac{\min (j,\,k)(N+1)-jk}{N+1}
 \end{equation*}
 \end{tcolorbox}
 This yields an expression for the internal kinetic energy of the system:
 \begin{tcolorbox}
 \begin{equation*}
     K_{\mathrm{internal}}
-      = \onehalf m\bondlength^2 C_{jk} \bondvel^{j} \bondvel^{k}
+      = \onehalf m\bondlength^2 C_{jk} \bondvel^{j}\cdot\bondvel^{k}
 \end{equation*}
 \end{tcolorbox}

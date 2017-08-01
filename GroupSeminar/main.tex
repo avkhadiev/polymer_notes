@@ -65,9 +65,14 @@
 % Redefine commands if necessary
 \renewcommand\vec{\mathbf}                      % use boldface for vectors
 % New commands
+\makeatletter                                   % thicker dot for inner product
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]
+  {\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
 %------------------------------------Date---------------------------------------
 \newcommand{\seminardate}{\DTMdisplaydate{2017}{7}{25}{-1}}
-\newcommand{\revisiondate}{\DTMdisplaydate{2017}{7}{27}{-1}}
+\newcommand{\revisiondate}{\DTMdisplaydate{2017}{8}{1}{-1}}
 %-------------------------------------------------------------------------------
 \newcommand*\Del{\vec{\nabla}}                  % del operator
 \newcommand*\diff{\mathop{}\!\mathrm{d}}		    % differential d

@@ -7,9 +7,9 @@
 %-------------------------------------------------------------------------------
 % Add text directly into the main file, or use \input statements
 %------------------------------------------------------------------------------
-  \par Calculating $\vcmsq = \vcm \cdot \vcm$, we find
+  \par Calculating $\vcmsq = \vcm \bigcdot \vcm$, we find
   \input{ke_polymer/calculation/long_equations/vcmsq}
-  \par We can re-write the second term in the equation above using a linear form, $\frac{\bondlength}{N+1} A_{i} (\vel_{0} \cdot \bondvel^{i})$ (using Einstein notation and with the index running from $1$ to $N$)
+  \par We can re-write the second term in the equation above using a linear form, $\frac{\bondlength}{N+1} A_{i} (\vel_{0} \bigcdot \bondvel^{i})$ (using Einstein notation and with the index running from $1$ to $N$)
   \begin{tcolorbox}
     \begin{equation}
     \label{eq:vector-a-ke-cm}
@@ -33,7 +33,7 @@
           \left(
             \vel^2_{0}
               + \frac{\bondlength}{N+1}
-                  A_{i} \left(\vel_{0} \cdot \bondvel^{i}\right)
+                  A_{i} \left(\vel_{0} \bigcdot \bondvel^{i}\right)
               + \left(\frac{\bondlength}{N+1}\right)^2
                 B_{ij} \left(\bondvel^{i} \bondvel^{j}\right)
           \right)

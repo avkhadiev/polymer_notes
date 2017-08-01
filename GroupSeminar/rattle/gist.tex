@@ -26,7 +26,7 @@
   and
   \begin{equation}
   \label{eq:rattle_gist_constraintVel_old}
-     \rattleBondPos(t) \cdot \rattleBondVel(t) = 0
+     \rattleBondPos(t) \bigcdot \rattleBondVel(t) = 0
   \end{equation}
   \par Where $\rattleBondVel = \rattleAtomVelFirst - \rattleAtomVelSecond$.
   \par If the constraint forces are not present, we can integrate the equations of motion using ordinary velocity Verlet from $t$ to $t + \timestep$, obtaining ``unconstrained'' positions and velocites $\rattleAtomPosUnconstrained \timeInFullStep$ and $\rattleAtomVelUnconstrained \timeInFullStep$. The resulting positions of atoms may violate the constraints: that is, equations \ref{eq:rattle_gist_constraintPos_old} and \ref{eq:rattle_gist_constraintVel_old} may not hold at time $t + \timestep$. However, assuming a reasonable timestep $\timestep$, the constraints should not be violated ``too much'':  small corrective displacements $\dlt{\rattleAtomPos\timeInFullStep}$ and $\dlt{\rattleAtomVel\timeInFullStep}$ will yield positions and velocities that respect the constraints.
@@ -54,7 +54,7 @@
   \begin{equation}
   \label{eq:rattle_gist_constraintVel_new}
      \rattleBondPos \timeInFullStep
-       \cdot \left(
+       \bigcdot \left(
           \rattleBondVelUnconstrained \timeInFullStep
           + \dlt{\rattleBondVel\timeInFullStep}
        \right)

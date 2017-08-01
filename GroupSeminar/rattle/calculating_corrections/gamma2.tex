@@ -10,10 +10,10 @@
   \par Now let us consider $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$. Suppose that at the $\rattleCorrectionIndexThis$th correction step, a bond velocity $\iterationThis{\rattleBondVel}\timeInFullStep$ does not satisy  \ref{eq:rattle_constraints_velApprox} --- a correction is in order, so $\iterationThis{\rattleLagrangeApprox}\timeInFullStep$ needs to be calculated. This quantity is an approximation to $\iterationThis{\rattleLagrange}\timeInFullStep$. If we knew $\iterationThis{\rattleLagrange}\timeInFullStep$, we could calculate $\iterationNext{\rattleBondVel}\timeInFullStep$ in such a way so as to satisfy the constraint exactly. That would mean:
   \begin{align*}
       \rattleBondPos&\timeInFullStep
-        \cdot
+        \bigcdot
         \iterationNext{\rattleBondVel}\timeInFullStep \\
       &= \rattleBondPos\timeInFullStep
-        \cdot
+        \bigcdot
         \left(
           \iterationThis{\rattleBondVel}\timeInFullStep
           + \iterationThis{\dlt{\rattleBondVel}}\timeInFullStep
@@ -37,7 +37,7 @@
   \begin{aligned}
     0 &= \left(
           \rattleBondPos\timeInFullStep
-          \cdot
+          \bigcdot
           \iterationThis{\rattleBondVel}\timeInFullStep
         \right) \\
         &- \timestep
@@ -55,7 +55,7 @@
     \iterationThis{\rattleLagrange}\timeInFullStep
       = \frac
           {\rattleBondPos\timeInFullStep
-            \cdot
+            \bigcdot
             \iterationThis{\rattleBondVel}\timeInFullStep}
           {\timestep
             \left(
@@ -70,7 +70,7 @@
     \iterationThis{\rattleLagrangeApprox}\timeInFullStep
       = \frac
           {\iteration{\rattleBondPos}{\rattleCorrectionIndexLast}\timeInFullStep
-            \cdot
+            \bigcdot
             \iterationThis{\rattleBondVel}\timeInFullStep}
           {\timestep
             \left(

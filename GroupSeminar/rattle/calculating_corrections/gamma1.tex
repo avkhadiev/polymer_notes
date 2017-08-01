@@ -44,7 +44,7 @@
           \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
         \right)
         \left(
-          \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+          \rattleBondPos(t) \bigcdot \iterationThis{\rattleBondPos}\timeInFullStep
         \right) \\
       &+ \left(
           \timestep^2
@@ -70,9 +70,9 @@
               \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
             \right)
             \left(
-              \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+              \rattleBondPos(t) \bigcdot \iterationThis{\rattleBondPos}\timeInFullStep
             \right)}
   \end{equation}
   \end{tcolorbox}
-  \par Assumming a reasonable timestep, at no point in the iterative correction should the position vector $\iterationThis{\rattleBondPos}\timeInFullStep$ turn away from $\rattleBondPos(t)$ so much as to be perpendicular to it and yield $\rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep = 0$. However, to avoid division by zero and ensure the algorithm is implemented correctly, it is a good practice to check during the correction stage that this inner product is not too small.
+  \par Assumming a reasonable timestep, at no point in the iterative correction should the position vector $\iterationThis{\rattleBondPos}\timeInFullStep$ turn away from $\rattleBondPos(t)$ so much as to be perpendicular to it and yield $\rattleBondPos(t) \bigcdot \iterationThis{\rattleBondPos}\timeInFullStep = 0$. However, to avoid division by zero and ensure the algorithm is implemented correctly, it is a good practice to check during the correction stage that this inner product is not too small.
   %-----------------------------------------------------------------------------

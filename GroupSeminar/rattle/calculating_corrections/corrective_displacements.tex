@@ -37,7 +37,7 @@
                            \frac{1}{\rattleMassFirst} + \frac{1}{\rattleMassSecond}
                          \right)
                          \left(
-                           \rattleBondPos(t) \cdot \iterationThis{\rattleBondPos}\timeInFullStep
+                           \rattleBondPos(t) \bigcdot \iterationThis{\rattleBondPos}\timeInFullStep
                          \right)
                         }
                     \right), & \frac
@@ -64,7 +64,7 @@
                     {\timestep
                            \scalarnorm{
                              \rattleBondPosUnit \timeInFullStep
-                               \cdot \rattleBondVel \timeInFullStep
+                               \bigcdot \rattleBondVel \timeInFullStep
                             }
                     }
                     {\rattleBondlength}
@@ -74,7 +74,7 @@
                 \left(
                   \iteration{\rattleBondPos}{\rattleCorrectionIndexLast}
                       \timeInFullStep
-                   \cdot
+                   \bigcdot
                    \iterationThis{\rattleBondVel}\timeInFullStep
                 \right)
                 \iteration{\rattleBondPos}{\rattleCorrectionIndexLast}
@@ -92,7 +92,7 @@
                       {\timestep
                              \scalarnorm{
                                \rattleBondPosUnit \timeInFullStep
-                                 \cdot \rattleBondVel \timeInFullStep
+                                 \bigcdot \rattleBondVel \timeInFullStep
                              }
                       }
                       {\rattleBondlength}
